@@ -7,3 +7,12 @@ wp-content/backup-db/
 .vscode/
 .DS_Store
 Thumbs.db
+
+
+# مخفی کردن قالب اصلی وودمارت (پولی)
+wp-content/themes/woodmart/
+
+# مخفی کردن افزونه‌های پولی وودمارت
+wp-content/plugins/woodmart-core/
+wp-content/plugins/js_composer/
+wp-content/plugins/revslider/
