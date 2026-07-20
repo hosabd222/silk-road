@@ -1,0 +1,9 @@
+# وردپرس
+wp-config.php
+wp-content/uploads/
+wp-content/backup-db/
+
+# فایل‌های سیستمی
+.vscode/
+.DS_Store
+Thumbs.db
