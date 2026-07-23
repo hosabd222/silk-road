@@ -99,7 +99,7 @@ function silk_road_enqueue_checkout_phone_validation_assets() {
 
 	wp_enqueue_script(
 		'sweetalert2',
-		'https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js',
+		get_stylesheet_directory_uri() . '/assets/js/sweetalert2.all.min.js',
 		array( 'jquery' ),
 		'11',
 		true
@@ -489,8 +489,8 @@ function silken_memories_enqueue_assets() {
 		return;
 	}
 
-	wp_enqueue_style( 'glightbox', 'https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/css/glightbox.min.css', array(), '3.3.1' );
-	wp_enqueue_script( 'glightbox', 'https://cdn.jsdelivr.net/npm/glightbox@3.3.1/dist/js/glightbox.min.js', array(), '3.3.1', true );
+	wp_enqueue_style( 'glightbox', get_stylesheet_directory_uri() . '/assets/css/glightbox.min.css', array(), '3.3.1' );
+	wp_enqueue_script( 'glightbox', get_stylesheet_directory_uri() . '/assets/js/glightbox.min.js', array(), '3.3.1', true );
 
 	$script_deps = array( 'glightbox' );
 
@@ -499,8 +499,8 @@ function silken_memories_enqueue_assets() {
 	// same-named re-registration, so this loads under a distinct handle to
 	// deterministically get the version it was built against.
 	if ( 'silken-memories' === $active_slug ) {
-		wp_enqueue_style( 'silken-swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11' );
-		wp_enqueue_script( 'silken-swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11', true );
+		wp_enqueue_style( 'silken-swiper', get_stylesheet_directory_uri() . '/assets/css/swiper-bundle.min.css', array(), '11' );
+		wp_enqueue_script( 'silken-swiper', get_stylesheet_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), '11', true );
 		$script_deps[] = 'silken-swiper';
 	}
 
