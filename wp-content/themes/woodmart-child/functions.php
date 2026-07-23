@@ -1130,7 +1130,7 @@ function silken_luxury_megamenu_css() {
 			padding: 4px 8px;
 			border-radius: 10px;
 			text-decoration: none;
-			color: var(--sm-ink);
+			color: var(--sm-ink) !important;
 			transition: background-color .2s ease, color .2s ease;
 			min-width: 0;
 		}
@@ -1138,7 +1138,7 @@ function silken_luxury_megamenu_css() {
 		.silken-lux__cat:focus-visible,
 		.silken-lux__cat.is-active {
 			background-color: var(--sm-gold-soft);
-			color: var(--sm-gold);
+			color: var(--sm-gold) !important;
 		}
 		.silken-lux__cat-icon {
 			width: 28px;
@@ -1156,6 +1156,7 @@ function silken_luxury_megamenu_css() {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			color: inherit !important;
 		}
 		.silken-lux__badge {
 			display: inline-block;
