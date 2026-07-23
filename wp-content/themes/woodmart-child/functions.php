@@ -959,267 +959,312 @@ function silken_account_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'silken_account_enqueue_assets', 50 );
 
 /**
- * Premium luxury Mega Menu for "دسته‌ها" (#245).
+ * Premium luxury Mega Menu for "دسته‌ها" (#245) — full rebuild per client
+ * brief (Dior / Louis Vuitton / Hermès style): fixed-height, no-scroll,
+ * 3-column layout (category list / large preview image / products or a
+ * decorative luxury filler when a category has none yet).
  *
- * Composed of two pieces, both scoped to #menu-item-245 so nothing else in
- * the header is touched:
- *   1. silken_megamenu_css_fix()  — layout + luxury styling (wp_head).
- *   2. silken_megamenu_footer()   — the featured-image / featured-products /
- *                                    promo aside, injected next to the
- *                                    category grid via JS (wp_footer) since
- *                                    the grid itself is rendered by
- *                                    Woodmart's own Mega_Menu_Walker, which
- *                                    builds each link's attributes by hand
- *                                    and never calls the standard
- *                                    nav_menu_link_attributes filter — so
- *                                    the JS matches each category link by
- *                                    its href against categoriesMap[id].url
- *                                    instead of a data attribute.
+ * Woodmart's own Mega_Menu_Walker renders a deep nested category tree,
+ * which doesn't fit a curated 3-column boutique layout — so this replaces
+ * the dropdown's inner content via JS instead of restyling the walker's
+ * output. The trigger link itself ("دسته‌ها") and the show/hide-on-hover
+ * behavior are untouched; only what's inside the panel changes.
  *
- * This is also saved in Theme Settings > Custom CSS (xts-woodmart-options),
- * but Woodmart only recompiles that into the actual served CSS file when
- * settings are saved through wp-admin's Theme Settings screen (the
- * Themesettingscss class writes its cache file on the 'xts_after_theme_settings'
- * action, gated on $_GET['page'] === 'xts_theme_settings') — a direct
- * update_option() call doesn't trigger that regeneration, so the saved value
- * alone never reached the page. Printing it directly here guarantees it's
- * live regardless of when/whether that cache gets rebuilt.
- *
+ * @return array
+ */
+function silken_luxury_megamenu_data() {
+	$terms = get_terms(
+		array(
+			'taxonomy'   => 'product_cat',
+			'hide_empty' => false,
+			'parent'     => 0,
+			'exclude'    => array( get_option( 'default_product_cat', 0 ) ),
+		)
+	);
+
+	if ( is_wp_error( $terms ) || ! $terms ) {
+		return array();
+	}
+
+	$data = array();
+
+	foreach ( $terms as $term ) {
+		$thumbnail_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
+		$image        = $thumbnail_id ? wp_get_attachment_image_url( $thumbnail_id, 'large' ) : '';
+		if ( ! $image && function_exists( 'wc_placeholder_img_src' ) ) {
+			$image = wc_placeholder_img_src( 'large' );
+		}
+
+		$products = get_posts(
+			array(
+				'post_type'      => 'product',
+				'post_status'    => 'publish',
+				'posts_per_page' => 6,
+				'fields'         => 'ids',
+				'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+					array(
+						'taxonomy' => 'product_cat',
+						'field'    => 'term_id',
+						'terms'    => $term->term_id,
+					),
+				),
+			)
+		);
+
+		$product_data = array();
+		foreach ( $products as $product_id ) {
+			$product = wc_get_product( $product_id );
+			if ( ! $product ) {
+				continue;
+			}
+			$product_data[] = array(
+				'name'  => $product->get_name(),
+				'price' => $product->get_price_html(),
+				'url'   => get_permalink( $product_id ),
+				'image' => get_the_post_thumbnail_url( $product_id, 'medium' ),
+			);
+		}
+
+		$data[] = array(
+			'id'          => $term->term_id,
+			'name'        => $term->name,
+			'url'         => get_term_link( $term ),
+			'description' => $term->description,
+			'image'       => $image,
+			'has_photo'   => (bool) $thumbnail_id,
+			'is_silk'     => ( false !== mb_strpos( $term->name, 'ابریشم' ) ),
+			'products'    => $product_data,
+		);
+	}
+
+	// Categories with a real standout photo first — the most visually
+	// complete ones lead, rather than an arbitrary/alphabetical order.
+	usort(
+		$data,
+		function ( $a, $b ) {
+			if ( $a['has_photo'] !== $b['has_photo'] ) {
+				return $a['has_photo'] ? -1 : 1;
+			}
+			return strcmp( $a['name'], $b['name'] );
+		}
+	);
+
+	return $data;
+}
+
+/**
  * @return void
  */
-function silken_megamenu_css_fix() {
+function silken_luxury_megamenu_css() {
+	$categories = silken_luxury_megamenu_data();
+	if ( ! $categories ) {
+		return;
+	}
 	?>
-	<style id="silken-megamenu-fix">
+	<style id="silken-luxury-megamenu">
 		#menu-item-245 {
 			--sm-gold: #b8894f;
-			--sm-gold-soft: rgba(184, 137, 79, .14);
+			--sm-gold-bright: #c9a15c;
+			--sm-gold-soft: rgba(184, 137, 79, .12);
 			--sm-ink: #2a2118;
-			--sm-ink-soft: rgba(42, 33, 24, .68);
+			--sm-ink-soft: rgba(42, 33, 24, .64);
 			--sm-paper: #faf6ef;
-			--sm-glass: rgba(255, 255, 255, .72);
 			--sm-line: rgba(184, 137, 79, .22);
 		}
 		#menu-item-245.color-scheme-dark,
 		#menu-item-245 > .wd-dropdown-menu.color-scheme-dark {
 			--sm-ink: #f3ece0;
-			--sm-ink-soft: rgba(243, 236, 224, .68);
+			--sm-ink-soft: rgba(243, 236, 224, .64);
 			--sm-paper: #1c1712;
-			--sm-glass: rgba(28, 23, 18, .72);
 			--sm-line: rgba(201, 161, 92, .28);
 		}
 
-		/* Panel: full site width, glass + gold hairline, smooth fade/slide
-		   open (250–300ms) instead of an instant snap. */
+		/* Panel: exactly the site's own container width, a fixed premium
+		   height, no internal scroll anywhere. */
 		#menu-item-245 > .wd-dropdown-menu {
 			width: min(1320px, calc(100vw - 24px)) !important;
+			height: 680px !important;
 			border: 1px solid var(--sm-line) !important;
-			transition: opacity .28s cubic-bezier(.16, 1, .3, 1), transform .28s cubic-bezier(.16, 1, .3, 1) !important;
+			overflow: hidden !important;
+			background-color: var(--sm-paper) !important;
+			background-blend-mode: normal !important;
+			transition: opacity .3s cubic-bezier(.16, 1, .3, 1), transform .3s cubic-bezier(.16, 1, .3, 1) !important;
 		}
 		#menu-item-245:not(:hover):not(:focus-within) > .wd-dropdown-menu {
-			transform: translateY(-6px);
+			transform: translateY(-8px);
 		}
 		#menu-item-245 > .wd-dropdown-menu > .container.wd-entry-content {
-			display: flex !important;
-			align-items: stretch;
-			gap: 28px;
 			width: 100% !important;
+			height: 100%;
+			padding: 28px !important;
+			box-sizing: border-box;
 		}
 
-		/* Category grid: fluid columns (4–6 depending on width), rows stay
-		   aligned via CSS Grid regardless of how many children each category
-		   has. */
-		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
-			display: grid !important;
-			flex: 1 1 auto;
-			grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important;
-			gap: 4px 24px;
-			align-items: start;
-			align-content: start;
-			max-height: min(72vh, 560px);
-			overflow-y: auto;
-			padding: 6px 6px 6px 2px;
+		.silken-lux {
+			display: grid;
+			grid-template-columns: 320px 1fr 280px;
+			gap: 28px;
+			height: 100%;
 		}
 
-		/* Each top-level category: photo + bold title, gold underline and a
-		   gentle scale-up on hover/focus instead of a flat background fill. */
-		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
-			flex: none !important;
-			width: auto !important;
-			min-width: 0;
-			padding: 10px 12px;
-			border-radius: 16px;
-			transition: background-color .25s ease;
+		/* ---- Column 1: category list, 2 sub-columns so ~25 categories fit
+		   without scrolling at a genuinely readable size. ---- */
+		.silken-lux__col1 {
+			height: 100%;
+			overflow: hidden;
+			border-inline-end: 1px solid var(--sm-line);
+			padding-inline-end: 20px;
 		}
-		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col:hover,
-		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col:focus-within {
-			background-color: var(--sm-gold-soft);
+		.silken-lux__cats {
+			height: 100%;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			grid-auto-flow: column;
+			grid-template-rows: repeat(13, 1fr);
+			gap: 2px 18px;
 		}
-		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col > a.woodmart-nav-link {
-			position: relative;
+		.silken-lux__cat {
 			display: flex;
 			align-items: center;
-			gap: 12px;
-			font-weight: 700;
-			font-size: 14px;
-			letter-spacing: .003em;
-			line-height: 1.4;
-			margin-bottom: 8px;
-			overflow-wrap: break-word;
+			gap: 10px;
+			padding: 4px 8px;
+			border-radius: 10px;
+			text-decoration: none;
 			color: var(--sm-ink);
+			transition: background-color .2s ease, color .2s ease;
+			min-width: 0;
 		}
-		#menu-item-245 .woodmart-nav-link:hover,
-		#menu-item-245 .woodmart-nav-link:focus-visible {
+		.silken-lux__cat:hover,
+		.silken-lux__cat:focus-visible,
+		.silken-lux__cat.is-active {
+			background-color: var(--sm-gold-soft);
 			color: var(--sm-gold);
 		}
-		#menu-item-245 .wd-nav-img {
-			width: 46px !important;
-			height: 46px !important;
-			border-radius: 12px;
+		.silken-lux__cat-icon {
+			width: 28px;
+			height: 28px;
+			border-radius: 8px;
 			-o-object-fit: cover;
 			object-fit: cover;
 			flex: none;
-			box-shadow: 0 4px 10px rgba(0, 0, 0, .16);
-			transition: transform .3s cubic-bezier(.16, 1, .3, 1);
+			opacity: .9;
 		}
-		#menu-item-245 .wd-col:hover .wd-nav-img,
-		#menu-item-245 .wd-col:focus-within .wd-nav-img {
-			transform: scale(1.07);
-		}
-		#menu-item-245 .sub-sub-menu {
-			padding-inline-start: 58px;
-			display: flex;
-			flex-direction: column;
-			gap: 5px;
-		}
-		#menu-item-245 .sub-sub-menu a {
-			font-size: 12.5px;
-			color: var(--sm-ink-soft);
-			transition: color .2s ease;
-			overflow-wrap: break-word;
-		}
-		#menu-item-245 .sub-sub-menu a:hover,
-		#menu-item-245 .sub-sub-menu a:focus-visible {
-			color: var(--sm-gold);
-		}
-
-		/* Real, meaningful badge only — "Pure Silk" for categories that
-		   actually are silk. Best-seller / New-collection badges need real
-		   sales/inventory-age data this store doesn't have yet, so they're
-		   left out rather than faked. */
-		.silken-mega-badge {
-			display: inline-flex;
-			align-items: center;
-			font-size: 10px;
-			font-weight: 700;
-			padding: 2px 8px;
-			border-radius: 999px;
-			background: var(--sm-gold-soft);
-			color: var(--sm-gold);
-			margin-inline-start: 6px;
-			letter-spacing: .02em;
+		.silken-lux__cat-name {
+			font-size: 13.5px;
+			font-weight: 600;
+			line-height: 1.3;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
-
-		/* Keyboard focus must be as visible as hover. */
-		#menu-item-245 a:focus-visible {
-			outline: 2px solid var(--sm-gold);
-			outline-offset: 2px;
-			border-radius: 6px;
+		.silken-lux__badge {
+			display: inline-block;
+			flex: none;
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			background: var(--sm-gold);
+			margin-inline-start: 4px;
 		}
 
-		/* Aside: large hover-preview image, optional featured products,
-		   promo banner. Fixed width, gold hairline divider from the grid. */
-		.silken-mega-aside {
-			flex: 0 0 300px;
+		/* ---- Column 2: large fading preview image + info. ---- */
+		.silken-lux__col2 {
+			height: 100%;
 			display: flex;
 			flex-direction: column;
 			gap: 16px;
-			border-inline-start: 1px solid var(--sm-line);
-			padding-inline-start: 24px;
+			min-width: 0;
 		}
-		.silken-mega-aside__preview {
+		.silken-lux__preview {
 			position: relative;
-			border-radius: 18px;
+			flex: 1 1 auto;
+			border-radius: 20px;
 			overflow: hidden;
-			aspect-ratio: 4 / 3;
-			background: var(--sm-paper);
-			box-shadow: 0 18px 36px rgba(0, 0, 0, .16);
+			box-shadow: 0 22px 44px rgba(0, 0, 0, .18);
+			background: var(--sm-ink);
 		}
-		.silken-mega-aside__preview img {
+		.silken-lux__preview img {
 			position: absolute;
 			inset: 0;
 			width: 100%;
 			height: 100%;
 			-o-object-fit: cover;
 			object-fit: cover;
-			transition: opacity .3s ease, transform 6s ease;
-			opacity: 1;
+			transition: opacity .35s ease;
 		}
-		.silken-mega-aside__preview.is-swapping img {
+		.silken-lux__preview.is-swapping img {
 			opacity: 0;
 		}
-		.silken-mega-aside__preview::after {
+		.silken-lux__preview::after {
 			content: '';
 			position: absolute;
 			inset: 0;
-			background: linear-gradient(to top, rgba(10, 8, 5, .85), rgba(10, 8, 5, 0) 60%);
+			background: linear-gradient(to top, rgba(10, 8, 5, .55), rgba(10, 8, 5, 0) 55%);
 		}
-		.silken-mega-aside__caption {
-			position: absolute;
-			z-index: 1;
-			inset-inline: 16px;
-			inset-block-end: 14px;
-			color: #fff;
+		.silken-lux__info {
+			flex: none;
 		}
-		.silken-mega-aside__eyebrow {
-			display: block;
-			font-size: 10px;
-			letter-spacing: .12em;
-			text-transform: uppercase;
-			color: #e4c48a;
-			margin-bottom: 4px;
+		.silken-lux__info h3 {
+			font-size: 20px;
+			margin: 0 0 6px;
+			color: var(--sm-ink);
 		}
-		.silken-mega-aside__caption h4 {
-			font-size: 16px;
-			margin: 0 0 10px;
-			color: #fff;
+		.silken-lux__info p {
+			font-size: 13px;
+			color: var(--sm-ink-soft);
+			line-height: 1.8;
+			margin: 0 0 12px;
+			max-height: 42px;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
 		}
-		.silken-mega-aside__cta {
+		.silken-lux__cta {
 			display: inline-flex;
 			align-items: center;
 			gap: 6px;
-			font-size: 11.5px;
+			font-size: 12.5px;
 			font-weight: 700;
-			padding: 6px 14px;
-			border: 1px solid rgba(255, 255, 255, .6);
+			padding: 10px 20px;
 			border-radius: 999px;
+			background: var(--sm-gold);
 			color: #fff;
 			text-decoration: none;
-			transition: background-color .25s ease, border-color .25s ease;
+			transition: background-color .25s ease, transform .2s ease;
 		}
-		.silken-mega-aside__cta:hover,
-		.silken-mega-aside__cta:focus-visible {
-			background-color: var(--sm-gold);
-			border-color: var(--sm-gold);
+		.silken-lux__cta:hover,
+		.silken-lux__cta:focus-visible {
+			background-color: var(--sm-gold-bright);
+			transform: translateY(-1px);
 		}
-		.silken-mega-aside__label {
+
+		/* ---- Column 3: products if the category has any, otherwise a
+		   decorative "brand promise" panel — never an empty gap. ---- */
+		.silken-lux__col3 {
+			height: 100%;
+			overflow: hidden;
+			border-inline-start: 1px solid var(--sm-line);
+			padding-inline-start: 20px;
+			display: flex;
+			flex-direction: column;
+		}
+		.silken-lux__col3-label {
 			font-size: 11px;
 			font-weight: 700;
 			letter-spacing: .06em;
-			color: var(--sm-ink-soft);
 			text-transform: uppercase;
+			color: var(--sm-ink-soft);
+			margin-bottom: 14px;
+			flex: none;
 		}
-		.silken-mega-aside__products {
+		.silken-lux__products {
 			display: flex;
 			flex-direction: column;
 			gap: 8px;
+			overflow: hidden;
 		}
-		.silken-mega-aside__products-list {
-			display: flex;
-			flex-direction: column;
-			gap: 6px;
-		}
-		.silken-mega-aside__product {
+		.silken-lux__product {
 			display: flex;
 			align-items: center;
 			gap: 10px;
@@ -1227,214 +1272,245 @@ function silken_megamenu_css_fix() {
 			border-radius: 12px;
 			text-decoration: none;
 			color: var(--sm-ink);
-			transition: background-color .2s ease;
+			transition: background-color .2s ease, transform .2s ease;
 		}
-		.silken-mega-aside__product:hover,
-		.silken-mega-aside__product:focus-visible {
+		.silken-lux__product:hover,
+		.silken-lux__product:focus-visible {
 			background-color: var(--sm-gold-soft);
+			transform: translateX(-2px);
 		}
-		.silken-mega-aside__product img {
-			width: 40px;
-			height: 40px;
-			border-radius: 10px;
+		[dir="rtl"] .silken-lux__product:hover {
+			transform: translateX(2px);
+		}
+		.silken-lux__product img {
+			width: 52px;
+			height: 52px;
+			border-radius: 12px;
 			-o-object-fit: cover;
 			object-fit: cover;
 			flex: none;
 		}
-		.silken-mega-aside__product span {
+		.silken-lux__product-name {
 			font-size: 12.5px;
+			font-weight: 600;
+			display: block;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
-		.silken-mega-aside__promo {
-			margin-top: auto;
-			padding: 12px 14px;
-			border-radius: 14px;
-			background: linear-gradient(135deg, var(--sm-gold-soft), transparent);
-			border: 1px solid var(--sm-line);
-			font-size: 12px;
+		.silken-lux__product-price {
+			font-size: 11.5px;
+			color: var(--sm-gold);
+			display: block;
+		}
+		.silken-lux__promises {
+			display: flex;
+			flex-direction: column;
+			gap: 18px;
+			flex: 1 1 auto;
+			justify-content: center;
+		}
+		.silken-lux__promise {
+			display: flex;
+			align-items: flex-start;
+			gap: 12px;
+		}
+		.silken-lux__promise-icon {
+			flex: none;
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+			background: var(--sm-gold-soft);
+			color: var(--sm-gold);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 15px;
+		}
+		.silken-lux__promise p {
+			margin: 0;
+			font-size: 12.5px;
 			color: var(--sm-ink);
-			text-align: center;
-			line-height: 1.8;
+			line-height: 1.7;
+		}
+
+		#menu-item-245 a:focus-visible {
+			outline: 2px solid var(--sm-gold);
+			outline-offset: 2px;
 		}
 
 		@media (max-width: 1200px) {
-			.silken-mega-aside {
-				flex-basis: 240px;
-			}
+			.silken-lux { grid-template-columns: 260px 1fr 240px; gap: 20px; }
 		}
 		@media (max-width: 1024px) {
 			#menu-item-245 > .wd-dropdown-menu {
 				width: calc(100vw - 24px) !important;
+				height: auto !important;
+				max-height: 82vh !important;
+				overflow-y: auto !important;
 			}
-			#menu-item-245 > .wd-dropdown-menu > .container.wd-entry-content {
-				flex-direction: column;
+			.silken-lux {
+				grid-template-columns: 1fr;
+				grid-auto-rows: auto;
+				height: auto;
 			}
-			.silken-mega-aside {
-				flex-basis: auto;
-				border-inline-start: none;
-				border-top: 1px solid var(--sm-line);
-				padding-inline-start: 0;
-				padding-top: 16px;
-				flex-direction: row;
-				flex-wrap: wrap;
+			.silken-lux__col1,
+			.silken-lux__col2,
+			.silken-lux__col3 {
+				height: auto;
+				border: none;
+				padding-inline: 0;
 			}
-			.silken-mega-aside__preview {
-				flex: 1 1 220px;
-				aspect-ratio: 16 / 9;
+			.silken-lux__cats {
+				grid-template-rows: none;
+				grid-auto-flow: row;
 			}
-			.silken-mega-aside__products,
-			.silken-mega-aside__promo {
-				flex: 1 1 220px;
-			}
-			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
-				grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
-				gap: 4px 14px;
-			}
-			#menu-item-245 .sub-sub-menu {
-				padding-inline-start: 0;
-			}
-		}
-		@media (max-width: 600px) {
-			.silken-mega-aside {
-				display: none; /* the hover-preview concept doesn't apply on touch; keep the grid full-width */
-			}
+			.silken-lux__preview { aspect-ratio: 16 / 9; }
 		}
 		@media (prefers-reduced-motion: reduce) {
 			#menu-item-245 > .wd-dropdown-menu,
-			#menu-item-245 .wd-nav-img,
-			.silken-mega-aside__preview img {
+			.silken-lux__preview img {
 				transition: none !important;
 			}
 		}
 	</style>
 	<?php
 }
-add_action( 'wp_head', 'silken_megamenu_css_fix', 100 );
+add_action( 'wp_head', 'silken_luxury_megamenu_css', 100 );
 
 /**
- * Inject the luxury mega-menu aside (large hover-preview image, featured
- * products if any exist, promo banner) next to the "دسته‌ها" category grid,
- * and wire up its hover/focus behavior.
- *
- * Injected via JS rather than a PHP hook because Woodmart's Mega_Menu_Walker
- * doesn't expose a filter for adding a sibling panel inside the dropdown —
- * this reaches into the already-rendered markup instead of fighting it.
- *
  * @return void
  */
-function silken_megamenu_footer() {
-	// Real standout images already used on the category showcase pages —
-	// same source of truth, so "hover shows the same photo" stays true.
-	$terms = get_terms(
-		array(
-			'taxonomy'   => 'product_cat',
-			'hide_empty' => false,
-		)
-	);
-
-	$default_image = '';
-	$categories_map = array();
-
-	foreach ( $terms as $term ) {
-		$thumbnail_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
-		if ( ! $thumbnail_id ) {
-			continue;
-		}
-		$url = wp_get_attachment_image_url( $thumbnail_id, 'large' );
-		if ( ! $url ) {
-			continue;
-		}
-		$categories_map[ $term->term_id ] = array(
-			'name'  => $term->name,
-			'image' => $url,
-			'url'   => get_term_link( $term ),
-		);
-		if ( ! $default_image && 'silk-carpet' === $term->slug ) {
-			$default_image = $url;
-		}
+function silken_luxury_megamenu_markup() {
+	$categories = silken_luxury_megamenu_data();
+	if ( ! $categories ) {
+		return;
 	}
-
-	if ( ! $categories_map ) {
-		return; // nothing to preview — skip the whole aside rather than show a broken panel.
-	}
-
-	if ( ! $default_image ) {
-		$first          = reset( $categories_map );
-		$default_image  = $first['image'];
-	}
-	$default_entry = null;
-	foreach ( $categories_map as $id => $entry ) {
-		if ( $entry['image'] === $default_image ) {
-			$default_entry = $entry;
-			break;
-		}
-	}
-
-	// Featured products: only renders if the catalogue actually has
-	// published products — currently empty (demo products were removed and
-	// real inventory isn't in yet), so this section is honestly omitted
-	// rather than showing fake picks.
-	$featured_query = new WP_Query(
-		array(
-			'post_type'      => 'product',
-			'post_status'    => 'publish',
-			'posts_per_page' => 4,
-			'orderby'        => 'date',
-			'order'          => 'DESC',
-			'no_found_rows'  => true,
-		)
-	);
-
-	ob_start();
 	?>
-	<template id="silken-mega-aside-tpl">
-		<aside class="silken-mega-aside">
-			<div class="silken-mega-aside__preview" id="silken-mega-preview">
-				<img
-					src="<?php echo esc_url( $default_entry['image'] ); ?>"
-					alt=""
-					loading="lazy"
-					id="silken-mega-preview-img"
-				/>
-				<div class="silken-mega-aside__caption">
-					<span class="silken-mega-aside__eyebrow"><?php esc_html_e( 'دسته پیشنهادی', 'woodmart-child' ); ?></span>
-					<h4 id="silken-mega-preview-title"><?php echo esc_html( $default_entry['name'] ); ?></h4>
-					<a href="<?php echo esc_url( $default_entry['url'] ); ?>" class="silken-mega-aside__cta" id="silken-mega-preview-link">
-						<?php esc_html_e( 'مشاهده مجموعه', 'woodmart-child' ); ?>
-					</a>
+	<template id="silken-lux-tpl">
+		<div class="silken-lux">
+			<nav class="silken-lux__col1" aria-label="<?php esc_attr_e( 'دسته‌بندی‌ها', 'woodmart-child' ); ?>">
+				<div class="silken-lux__cats">
+					<?php foreach ( $categories as $cat ) : ?>
+						<a href="<?php echo esc_url( $cat['url'] ); ?>" class="silken-lux__cat" data-cat-id="<?php echo esc_attr( $cat['id'] ); ?>">
+							<img class="silken-lux__cat-icon" src="<?php echo esc_url( $cat['image'] ); ?>" alt="" loading="lazy" />
+							<span class="silken-lux__cat-name"><?php echo esc_html( $cat['name'] ); ?></span>
+							<?php if ( $cat['is_silk'] ) : ?>
+								<span class="silken-lux__badge" title="<?php esc_attr_e( 'ابریشم خالص', 'woodmart-child' ); ?>"></span>
+							<?php endif; ?>
+						</a>
+					<?php endforeach; ?>
+				</div>
+			</nav>
+
+			<div class="silken-lux__col2">
+				<div class="silken-lux__preview" id="silken-lux-preview">
+					<img id="silken-lux-preview-img" src="" alt="" />
+				</div>
+				<div class="silken-lux__info">
+					<h3 id="silken-lux-title"></h3>
+					<p id="silken-lux-desc"></p>
+					<a href="#" class="silken-lux__cta" id="silken-lux-cta"><?php esc_html_e( 'مشاهده مجموعه', 'woodmart-child' ); ?></a>
 				</div>
 			</div>
 
-			<?php if ( $featured_query->have_posts() ) : ?>
-				<div class="silken-mega-aside__products">
-					<span class="silken-mega-aside__label"><?php esc_html_e( 'محصولات ویژه', 'woodmart-child' ); ?></span>
-					<div class="silken-mega-aside__products-list">
-						<?php
-						while ( $featured_query->have_posts() ) :
-							$featured_query->the_post();
-							?>
-							<a href="<?php the_permalink(); ?>" class="silken-mega-aside__product">
-								<?php echo get_the_post_thumbnail( get_the_ID(), 'thumbnail', array( 'loading' => 'lazy' ) ); ?>
-								<span><?php the_title(); ?></span>
-							</a>
-						<?php endwhile; ?>
-					</div>
-				</div>
-				<?php wp_reset_postdata(); ?>
-			<?php endif; ?>
-
-			<div class="silken-mega-aside__promo">
-				<?php esc_html_e( 'ارسال ایمن و بیمه‌شده برای تمام سفارش‌های فرش دستباف', 'woodmart-child' ); ?>
-			</div>
-		</aside>
+			<div class="silken-lux__col3" id="silken-lux-col3"></div>
+		</div>
 	</template>
 	<script>
 	( function () {
 		'use strict';
 
-		var categoriesMap = <?php echo wp_json_encode( $categories_map ); ?>;
+		var categories = <?php echo wp_json_encode( $categories ); ?>;
+		var byId = {};
+		categories.forEach( function ( c ) { byId[ c.id ] = c; } );
+
+		var promiseIcons = [ '✋', '📜', '🧵', '🚚' ];
+		var promises = [
+			'<?php echo esc_js( __( 'صد در صد دستباف توسط استادکاران ایرانی', 'woodmart-child' ) ); ?>',
+			'<?php echo esc_js( __( 'همراه با شناسنامه معتبر اصالت کالا', 'woodmart-child' ) ); ?>',
+			'<?php echo esc_js( __( 'بافته شده از خالص‌ترین ابریشم و کرک', 'woodmart-child' ) ); ?>',
+			'<?php echo esc_js( __( 'ارسال ایمن و بیمه‌شده به سراسر ایران', 'woodmart-child' ) ); ?>'
+		];
+
+		function renderCol3( cat ) {
+			var col3 = document.getElementById( 'silken-lux-col3' );
+			if ( ! col3 ) {
+				return;
+			}
+			col3.innerHTML = '';
+
+			if ( cat.products && cat.products.length ) {
+				var label = document.createElement( 'span' );
+				label.className = 'silken-lux__col3-label';
+				label.textContent = '<?php echo esc_js( __( 'محصولات این مجموعه', 'woodmart-child' ) ); ?>';
+				col3.appendChild( label );
+
+				var list = document.createElement( 'div' );
+				list.className = 'silken-lux__products';
+				cat.products.forEach( function ( p ) {
+					var a = document.createElement( 'a' );
+					a.className = 'silken-lux__product';
+					a.href = p.url;
+					a.innerHTML = '<img src="' + p.image + '" alt="" loading="lazy" />' +
+						'<span><span class="silken-lux__product-name">' + p.name + '</span>' +
+						'<span class="silken-lux__product-price">' + p.price + '</span></span>';
+					list.appendChild( a );
+				} );
+				col3.appendChild( list );
+				return;
+			}
+
+			// No products in this category yet — fill the space with a
+			// genuine, verifiable brand-promise panel instead of an empty gap
+			// (or fake products).
+			var label = document.createElement( 'span' );
+			label.className = 'silken-lux__col3-label';
+			label.textContent = '<?php echo esc_js( __( 'تعهد ما به شما', 'woodmart-child' ) ); ?>';
+			col3.appendChild( label );
+
+			var wrap = document.createElement( 'div' );
+			wrap.className = 'silken-lux__promises';
+			promises.forEach( function ( text, i ) {
+				var row = document.createElement( 'div' );
+				row.className = 'silken-lux__promise';
+				row.innerHTML = '<span class="silken-lux__promise-icon">' + promiseIcons[ i ] + '</span><p>' + text + '</p>';
+				wrap.appendChild( row );
+			} );
+			col3.appendChild( wrap );
+		}
+
+		function showCategory( cat, skipFade ) {
+			var wrap  = document.getElementById( 'silken-lux-preview' );
+			var img   = document.getElementById( 'silken-lux-preview-img' );
+			var title = document.getElementById( 'silken-lux-title' );
+			var desc  = document.getElementById( 'silken-lux-desc' );
+			var cta   = document.getElementById( 'silken-lux-cta' );
+
+			if ( ! wrap || ! img || img.src === cat.image ) {
+				return;
+			}
+
+			function apply() {
+				img.src = cat.image;
+				title.textContent = cat.name;
+				desc.textContent = cat.description || '';
+				desc.style.display = cat.description ? '' : 'none';
+				cta.href = cat.url;
+				renderCol3( cat );
+			}
+
+			if ( skipFade ) {
+				apply();
+				return;
+			}
+
+			wrap.classList.add( 'is-swapping' );
+			window.setTimeout( function () {
+				apply();
+				wrap.classList.remove( 'is-swapping' );
+			}, 160 );
+		}
 
 		document.addEventListener( 'DOMContentLoaded', function () {
 			var menuItem = document.getElementById( 'menu-item-245' );
@@ -1443,68 +1519,40 @@ function silken_megamenu_footer() {
 			}
 
 			var container = menuItem.querySelector( '.wd-dropdown-menu > .container.wd-entry-content' );
-			var template  = document.getElementById( 'silken-mega-aside-tpl' );
-			if ( ! container || ! template || container.querySelector( '.silken-mega-aside' ) ) {
+			var template  = document.getElementById( 'silken-lux-tpl' );
+			if ( ! container || ! template ) {
 				return;
 			}
 
+			container.innerHTML = '';
 			container.appendChild( template.content.cloneNode( true ) );
 
-			var previewWrap  = document.getElementById( 'silken-mega-preview' );
-			var previewImg   = document.getElementById( 'silken-mega-preview-img' );
-			var previewTitle = document.getElementById( 'silken-mega-preview-title' );
-			var previewLink  = document.getElementById( 'silken-mega-preview-link' );
+			var items = menuItem.querySelectorAll( '.silken-lux__cat' );
 
-			// Woodmart's Mega_Menu_Walker builds each <a>'s attributes by hand
-			// and never runs the standard nav_menu_link_attributes filter, so
-			// there's no data-cat-id to read — match by href against each
-			// category's own permalink instead.
-			var urlToData = {};
-			Object.keys( categoriesMap ).forEach( function ( id ) {
-				urlToData[ categoriesMap[ id ].url ] = categoriesMap[ id ];
-			} );
-
-			function showCategory( data ) {
-				if ( ! data || ! previewImg || previewImg.src === data.image ) {
-					return;
+			function activate( catId, el, skipFade ) {
+				items.forEach( function ( i ) { i.classList.remove( 'is-active' ); } );
+				if ( el ) {
+					el.classList.add( 'is-active' );
 				}
-
-				previewWrap.classList.add( 'is-swapping' );
-				window.setTimeout( function () {
-					previewImg.src = data.image;
-					previewTitle.textContent = data.name;
-					previewLink.href = data.url;
-					previewWrap.classList.remove( 'is-swapping' );
-				}, 150 );
+				if ( byId[ catId ] ) {
+					showCategory( byId[ catId ], skipFade );
+				}
 			}
 
-			// "ابریشم خالص" badge — a real, factual tag (these categories are
-			// genuinely silk), not a fabricated best-seller/new-arrival claim.
-			menuItem.querySelectorAll( '.wd-col > a.woodmart-nav-link' ).forEach( function ( link ) {
-				var textNode = link.lastChild;
-				if ( textNode && textNode.nodeType === 3 && textNode.textContent.indexOf( 'ابریشم' ) !== -1 ) {
-					var badge = document.createElement( 'span' );
-					badge.className = 'silken-mega-badge';
-					badge.textContent = '<?php echo esc_js( __( 'ابریشم خالص', 'woodmart-child' ) ); ?>';
-					link.appendChild( badge );
-				}
-
-				var data = urlToData[ link.href ];
-				if ( ! data ) {
-					return;
-				}
-
-				link.addEventListener( 'mouseenter', function () {
-					showCategory( data );
-				} );
-				link.addEventListener( 'focus', function () {
-					showCategory( data );
-				} );
+			items.forEach( function ( el ) {
+				var catId = el.getAttribute( 'data-cat-id' );
+				el.addEventListener( 'mouseenter', function () { activate( catId, el ); } );
+				el.addEventListener( 'focus', function () { activate( catId, el ); } );
 			} );
+
+			if ( items.length ) {
+				var firstId = items[ 0 ].getAttribute( 'data-cat-id' );
+				activate( firstId, items[ 0 ], true );
+			}
 		} );
 	} )();
 	</script>
 	<?php
-	echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built entirely from esc_*() calls above.
 }
-add_action( 'wp_footer', 'silken_megamenu_footer', 20 );
+add_action( 'wp_footer', 'silken_luxury_megamenu_markup', 20 );
+
