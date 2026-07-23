@@ -978,45 +978,81 @@ add_action( 'wp_enqueue_scripts', 'silken_account_enqueue_assets', 50 );
 function silken_megamenu_css_fix() {
 	?>
 	<style id="silken-megamenu-fix">
-		@media (min-width: 1025px) {
-			#menu-item-245 > .wd-dropdown-menu {
-				width: min(1180px, calc(100vw - 32px)) !important;
-			}
-			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
-				display: grid !important;
-				grid-template-columns: repeat(5, 1fr) !important;
-				gap: 6px 22px;
-				align-items: start;
-				max-height: min(65vh, 480px);
-				overflow-y: auto;
-				padding-inline-end: 6px;
-			}
-			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
-				flex: none !important;
-				width: auto !important;
-				min-width: 0;
-			}
+		/* Panel: bigger, and truly fluid — auto-fill columns instead of fixed
+		   breakpoints, so the column count adapts continuously with viewport
+		   width. Allowed to reach the site's own content width. */
+		#menu-item-245 > .wd-dropdown-menu {
+			width: min(1320px, calc(100vw - 24px)) !important;
 		}
+		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
+			display: grid !important;
+			grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important;
+			gap: 6px 24px;
+			align-items: start;
+			max-height: min(72vh, 560px);
+			overflow-y: auto;
+			padding: 6px 6px 6px 2px;
+		}
+
+		/* Each top-level category becomes a small card: standout photo +
+		   bold title, subtle hover highlight, children listed underneath. */
+		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
+			flex: none !important;
+			width: auto !important;
+			min-width: 0;
+			padding: 10px 12px;
+			border-radius: 16px;
+			transition: background-color .25s ease;
+		}
+		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col:hover {
+			background-color: rgba(0, 0, 0, .045);
+		}
+		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col > a.woodmart-nav-link {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			font-weight: 700;
+			font-size: 14px;
+			line-height: 1.4;
+			margin-bottom: 8px;
+			overflow-wrap: break-word;
+		}
+		#menu-item-245 .wd-nav-img {
+			width: 46px !important;
+			height: 46px !important;
+			border-radius: 12px;
+			-o-object-fit: cover;
+			object-fit: cover;
+			flex: none;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, .12);
+		}
+		#menu-item-245 .sub-sub-menu {
+			padding-inline-start: 58px;
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+		}
+		#menu-item-245 .sub-sub-menu a {
+			font-size: 12.5px;
+			opacity: .72;
+			transition: opacity .2s ease;
+			overflow-wrap: break-word;
+		}
+		#menu-item-245 .sub-sub-menu a:hover {
+			opacity: 1;
+		}
+
 		@media (max-width: 1024px) {
 			#menu-item-245 > .wd-dropdown-menu {
-				width: calc(100vw - 32px) !important;
+				width: calc(100vw - 24px) !important;
 			}
 			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
-				display: grid !important;
-				grid-template-columns: repeat(2, 1fr) !important;
-				gap: 6px 16px;
-				align-items: start;
-				max-height: min(65vh, 480px);
-				overflow-y: auto;
+				grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+				gap: 4px 14px;
 			}
-			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
-				flex: none !important;
-				width: auto !important;
-				min-width: 0;
+			#menu-item-245 .sub-sub-menu {
+				padding-inline-start: 0;
 			}
-		}
-		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col > a {
-			overflow-wrap: break-word;
 		}
 	</style>
 	<?php
