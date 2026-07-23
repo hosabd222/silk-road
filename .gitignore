@@ -1,7 +1,12 @@
 # وردپرس
 wp-config.php
-wp-content/uploads/
+wp-content/uploads/*
 wp-content/backup-db/
+
+# پوشه carpet-images داخل uploads یک دارایی پروژه است (عکس دیفالت + مقصد
+# آپلود دستی مشتری برای عکس‌های محصول بر اساس SKU)، نه خروجی رسانه‌ای
+# ووردپرس — پس برخلاف بقیه uploads/ باید در گیت ردیابی شود.
+!wp-content/uploads/carpet-images/
 
 # فایل‌های سیستمی
 .vscode/
@@ -20,3 +25,7 @@ wp-content/plugins/revslider/
 
 # مخفی کردن فایل‌های بک‌آپ Duplicator
 wp-content/backups-dup-lite/
+/wp-content/backups-dup-lite/*
+
+# مخفی کردن کش (WP Rocket و غیره)
+/wp-content/cache/*

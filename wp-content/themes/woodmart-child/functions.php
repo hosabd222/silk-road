@@ -1559,3 +1559,93 @@ function silken_luxury_megamenu_markup() {
 }
 add_action( 'wp_footer', 'silken_luxury_megamenu_markup', 20 );
 
+/**
+ * Turn on WooCommerce's built-in product gallery behaviors (zoom on hover,
+ * lightbox on click, swipeable slider on mobile) — the theme never declared
+ * support for these, so the gallery rendered as plain static images.
+ *
+ * @return void
+ */
+function silk_road_wc_gallery_support() {
+	add_theme_support( 'wc-product-gallery-zoom' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
+}
+add_action( 'after_setup_theme', 'silk_road_wc_gallery_support' );
+
+/**
+ * Force a consistent 4:5 aspect ratio + cover-fit on shop/archive grid
+ * product images so mixed portrait/landscape/square source photos don't
+ * stagger the grid or distort. Printed via wp_head (not Theme Settings >
+ * Custom CSS) for the same reason as the megamenu styles above: Woodmart
+ * only recompiles that option into a served file on an actual wp-admin
+ * Theme Settings save, so a direct update_option() call never reaches the
+ * page.
+ *
+ * @return void
+ */
+function silk_road_product_grid_image_css() {
+	?>
+	<style id="silk-road-product-grid-images">
+		.woocommerce ul.products li.product .wd-product-grid-item .product-image-link,
+		.woocommerce ul.products li.product .wd-product-grid-item .product-image-link .wd-bg-media,
+		.woocommerce ul.products li.product a img,
+		.woocommerce ul.products li.product .wd-product-grid-item img {
+			aspect-ratio: 4 / 5;
+			-o-object-fit: cover;
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+		}
+		.woocommerce ul.products li.product .product-image-link {
+			display: block;
+			overflow: hidden;
+		}
+	</style>
+	<?php
+}
+add_action( 'wp_head', 'silk_road_product_grid_image_css', 90 );
+
+/**
+ * Rewrite a media URL from this site's own domain to an external Object
+ * Storage / CDN domain (e.g. ArvanCloud) — a no-op placeholder until that
+ * migration actually happens. Activate later by setting the
+ * `silk_road_cdn_domain` option (or defining SILK_ROAD_CDN_DOMAIN in
+ * wp-config.php) to the storage bucket's public URL; until then every call
+ * just returns the URL unchanged.
+ *
+ * @param string $url Original attachment URL, pointing at this site's domain.
+ * @return string
+ */
+function custom_cdn_media_url( $url ) {
+	$cdn_domain = defined( 'SILK_ROAD_CDN_DOMAIN' ) ? SILK_ROAD_CDN_DOMAIN : get_option( 'silk_road_cdn_domain', '' );
+
+	if ( ! $cdn_domain || ! is_string( $url ) ) {
+		return $url;
+	}
+
+	$site_host = wp_parse_url( home_url(), PHP_URL_HOST );
+	if ( ! $site_host ) {
+		return $url;
+	}
+
+	return preg_replace( '#^(https?:)?//' . preg_quote( $site_host, '#' ) . '#i', rtrim( $cdn_domain, '/' ), $url );
+}
+add_filter( 'wp_get_attachment_url', 'custom_cdn_media_url' );
+
+/**
+ * Same rewrite for the [url, width, height, is_intermediate] array shape
+ * returned by wp_get_attachment_image_src() / used internally by
+ * wp_get_attachment_image_url() and srcset generation.
+ *
+ * @param array|false $image Attachment image data or false.
+ * @return array|false
+ */
+function silk_road_cdn_media_image_src( $image ) {
+	if ( is_array( $image ) && isset( $image[0] ) ) {
+		$image[0] = custom_cdn_media_url( $image[0] );
+	}
+	return $image;
+}
+add_filter( 'wp_get_attachment_image_src', 'silk_road_cdn_media_image_src' );
+
