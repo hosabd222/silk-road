@@ -959,8 +959,10 @@ function silken_account_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'silken_account_enqueue_assets', 50 );
 
 /**
- * Categories megamenu (#245): fixed-width panel + responsive multi-column
- * grid for its category list.
+ * Categories megamenu (#245): fixed-width panel + a true CSS-grid layout
+ * for its category list (strict columns × rows, like Digikala's category
+ * dropdown), instead of a flex-wrap that let uneven item heights stagger
+ * the columns out of alignment.
  *
  * This is also saved in Theme Settings > Custom CSS (xts-woodmart-options),
  * but Woodmart only recompiles that into the actual served CSS file when
@@ -981,16 +983,18 @@ function silken_megamenu_css_fix() {
 				width: min(1180px, calc(100vw - 32px)) !important;
 			}
 			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
-				display: flex !important;
-				flex-wrap: wrap !important;
-				align-content: flex-start !important;
+				display: grid !important;
+				grid-template-columns: repeat(5, 1fr) !important;
+				gap: 6px 22px;
+				align-items: start;
 				max-height: min(65vh, 480px);
 				overflow-y: auto;
 				padding-inline-end: 6px;
 			}
 			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
-				flex: 0 0 200px !important;
-				width: 200px !important;
+				flex: none !important;
+				width: auto !important;
+				min-width: 0;
 			}
 		}
 		@media (max-width: 1024px) {
@@ -998,16 +1002,21 @@ function silken_megamenu_css_fix() {
 				width: calc(100vw - 32px) !important;
 			}
 			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
-				display: flex !important;
-				flex-wrap: wrap !important;
-				align-content: flex-start !important;
+				display: grid !important;
+				grid-template-columns: repeat(2, 1fr) !important;
+				gap: 6px 16px;
+				align-items: start;
 				max-height: min(65vh, 480px);
 				overflow-y: auto;
 			}
 			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
-				flex: 0 0 45% !important;
-				width: 45% !important;
+				flex: none !important;
+				width: auto !important;
+				min-width: 0;
 			}
+		}
+		#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col > a {
+			overflow-wrap: break-word;
 		}
 	</style>
 	<?php
