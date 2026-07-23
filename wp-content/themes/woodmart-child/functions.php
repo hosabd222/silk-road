@@ -957,3 +957,59 @@ function silken_account_enqueue_assets() {
 	wp_enqueue_script( $handle, get_stylesheet_directory_uri() . '/assets/account-' . $style . '.js', array(), '1.0.0', true );
 }
 add_action( 'wp_enqueue_scripts', 'silken_account_enqueue_assets', 50 );
+
+/**
+ * Categories megamenu (#245): fixed-width panel + responsive multi-column
+ * grid for its category list.
+ *
+ * This is also saved in Theme Settings > Custom CSS (xts-woodmart-options),
+ * but Woodmart only recompiles that into the actual served CSS file when
+ * settings are saved through wp-admin's Theme Settings screen (the
+ * Themesettingscss class writes its cache file on the 'xts_after_theme_settings'
+ * action, gated on $_GET['page'] === 'xts_theme_settings') — a direct
+ * update_option() call doesn't trigger that regeneration, so the saved value
+ * alone never reached the page. Printing it directly here guarantees it's
+ * live regardless of when/whether that cache gets rebuilt.
+ *
+ * @return void
+ */
+function silken_megamenu_css_fix() {
+	?>
+	<style id="silken-megamenu-fix">
+		@media (min-width: 1025px) {
+			#menu-item-245 > .wd-dropdown-menu {
+				width: min(1180px, calc(100vw - 32px)) !important;
+			}
+			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
+				display: flex !important;
+				flex-wrap: wrap !important;
+				align-content: flex-start !important;
+				max-height: min(65vh, 480px);
+				overflow-y: auto;
+				padding-inline-end: 6px;
+			}
+			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
+				flex: 0 0 200px !important;
+				width: 200px !important;
+			}
+		}
+		@media (max-width: 1024px) {
+			#menu-item-245 > .wd-dropdown-menu {
+				width: calc(100vw - 32px) !important;
+			}
+			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline {
+				display: flex !important;
+				flex-wrap: wrap !important;
+				align-content: flex-start !important;
+				max-height: min(65vh, 480px);
+				overflow-y: auto;
+			}
+			#menu-item-245 > .wd-dropdown-menu .wd-sub-menu.wd-grid-f-inline > li.wd-col {
+				flex: 0 0 45% !important;
+				width: 45% !important;
+			}
+		}
+	</style>
+	<?php
+}
+add_action( 'wp_head', 'silken_megamenu_css_fix', 100 );
