@@ -1157,6 +1157,8 @@ function silken_luxury_megamenu_css() {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			color: inherit !important;
+			flex: 1 1 auto;
+			min-width: 0;
 		}
 		.silken-lux__badge {
 			display: inline-block;
