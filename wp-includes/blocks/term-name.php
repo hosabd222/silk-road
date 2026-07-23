@@ -34,7 +34,7 @@ function render_block_core_term_name( $attributes, $content, $block ) {
 	}
 
 	$term_name = $term->name;
-	$level     = $attributes['level'] ?? 0;
+	$level     = isset( $attributes['level'] ) ? $attributes['level'] : 0;
 	$tag_name  = 0 === $level ? 'p' : 'h' . (int) $level;
 
 	if ( isset( $attributes['isLink'] ) && $attributes['isLink'] ) {

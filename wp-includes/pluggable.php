@@ -30,7 +30,7 @@ if ( ! function_exists( 'wp_set_current_user' ) ) :
 		// If `$id` matches the current user, there is nothing to do.
 		if ( isset( $current_user )
 		&& ( $current_user instanceof WP_User )
-		&& ( (int) $id === $current_user->ID )
+		&& ( $id === $current_user->ID )
 		&& ( null !== $id )
 		) {
 			return $current_user;
@@ -173,7 +173,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 	 * @since 1.2.1
 	 * @since 5.5.0 is_email() is used for email validation,
 	 *              instead of PHPMailer's default validator.
-	 * @since 6.9.0 The `$embeds` parameter was added.
+	 * @since 6.9.0 Added $embeds parameter.
 	 * @since 6.9.0 Improved Content-Type header handling for multipart messages.
 	 *
 	 * @global PHPMailer\PHPMailer\PHPMailer $phpmailer
@@ -193,7 +193,6 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 * Filters the wp_mail() arguments.
 		 *
 		 * @since 2.2.0
-		 * @since 6.9.0 The `$embeds` element was added to the `$args` array.
 		 *
 		 * @param array $args {
 		 *     Array of the `wp_mail()` arguments.
@@ -216,7 +215,6 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 * the email was successfully sent.
 		 *
 		 * @since 5.7.0
-		 * @since 6.9.0 The `$embeds` element was added to the `$atts` array.
 		 *
 		 * @param null|bool $return Short-circuit return value.
 		 * @param array     $atts {
@@ -446,7 +444,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		$from_name = apply_filters( 'wp_mail_from_name', $from_name );
 
 		try {
-			$phpmailer->setFrom( $from_email, $from_name, false );
+			$phpmailer->setFrom( $from_email, $from_name );
 		} catch ( PHPMailer\PHPMailer\Exception $e ) {
 			$mail_error_data                             = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 			$mail_error_data['phpmailer_exception_code'] = $e->getCode();
@@ -575,8 +573,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 				 * @since 6.9.0
 				 *
 				 * @param array $args {
-				 *     An array of arguments for PHPMailer's addEmbeddedImage() method.
-				 *
+				 *     An array of arguments for `addEmbeddedImage()`.
 				 *     @type string $path        The path to the file.
 				 *     @type string $cid         The Content-ID of the image. Default: The key in the embeds array.
 				 *     @type string $name        The filename of the image.
@@ -621,7 +618,7 @@ if ( ! function_exists( 'wp_mail' ) ) :
 		 */
 		do_action_ref_array( 'phpmailer_init', array( &$phpmailer ) );
 
-		$mail_data = compact( 'to', 'subject', 'message', 'headers', 'attachments', 'embeds' );
+		$mail_data = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 
 		// Send!
 		try {
@@ -635,10 +632,9 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			 * process the request without any errors.
 			 *
 			 * @since 5.9.0
-			 * @since 6.9.0 The `$embeds` element was added to the `$mail_data` array.
 			 *
 			 * @param array $mail_data {
-			 *     An array containing the email recipient(s), subject, message, headers, attachments, and embeds.
+			 *     An array containing the email recipient(s), subject, message, headers, and attachments.
 			 *
 			 *     @type string[] $to          Email addresses to send message.
 			 *     @type string   $subject     Email subject.
@@ -655,12 +651,12 @@ if ( ! function_exists( 'wp_mail' ) ) :
 			$mail_data['phpmailer_exception_code'] = $e->getCode();
 
 			/**
-			 * Fires after a PHPMailer exception is caught.
+			 * Fires after a PHPMailer\PHPMailer\Exception is caught.
 			 *
 			 * @since 4.4.0
 			 *
 			 * @param WP_Error $error A WP_Error object with the PHPMailer\PHPMailer\Exception message, and an array
-			 *                        containing the mail recipient, subject, message, headers, attachments, and embeds.
+			 *                        containing the mail recipient, subject, message, headers, and attachments.
 			 */
 			do_action( 'wp_mail_failed', new WP_Error( 'wp_mail_failed', $e->getMessage(), $mail_data ) );
 
@@ -1520,7 +1516,7 @@ if ( ! function_exists( 'wp_redirect' ) ) :
 		}
 
 		/**
-		 * Filters the value of the `X-Redirect-By` HTTP header.
+		 * Filters the X-Redirect-By header.
 		 *
 		 * Allows applications to identify themselves when they're doing a redirect.
 		 *
@@ -1722,7 +1718,7 @@ if ( ! function_exists( 'wp_validate_redirect' ) ) :
 		 * @param string[] $hosts An array of allowed host names.
 		 * @param string   $host  The host name of the redirect destination; empty string if not set.
 		 */
-		$allowed_hosts = (array) apply_filters( 'allowed_redirect_hosts', array( $wpp['host'] ), $lp['host'] ?? '' );
+		$allowed_hosts = (array) apply_filters( 'allowed_redirect_hosts', array( $wpp['host'] ), isset( $lp['host'] ) ? $lp['host'] : '' );
 
 		if ( isset( $lp['host'] ) && ( ! in_array( $lp['host'], $allowed_hosts, true ) && strtolower( $wpp['host'] ) !== $lp['host'] ) ) {
 			$location = $fallback_url;
@@ -1937,11 +1933,11 @@ if ( ! function_exists( 'wp_notify_postauthor' ) ) :
 					break;
 			}
 
+			/* translators: %s: Comment URL. */
 			if ( 'note' === $comment->comment_type ) {
 				$notify_message .= get_edit_post_link( $comment->comment_post_ID, 'url' ) . "\r\n";
 			} else {
 				$notify_message .= get_permalink( $comment->comment_post_ID ) . "#comments\r\n\r\n";
-				/* translators: %s: Comment URL. */
 				$notify_message .= sprintf( __( 'Permalink: %s' ), get_comment_link( $comment ) ) . "\r\n";
 			}
 
@@ -2263,7 +2259,7 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 	 * @since 4.6.0 The `$notify` parameter accepts 'user' for sending notification only to the user created.
 	 *
 	 * @param int    $user_id    User ID.
-	 * @param mixed  $deprecated Not used.
+	 * @param null   $deprecated Not used (argument deprecated).
 	 * @param string $notify     Optional. Type of notification that should happen. Accepts 'admin' or an empty
 	 *                           string (admin only), 'user', or 'both' (admin and user). Default empty.
 	 */
@@ -2383,7 +2379,9 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) :
 		 *
 		 * @see https://core.trac.wordpress.org/tickets/42957
 		 */
-		$message .= network_site_url( 'wp-login.php?login=' . rawurlencode( $user->user_login ) . "&key=$key&action=rp", 'login' ) . "\r\n";
+		$message .= network_site_url( 'wp-login.php?login=' . rawurlencode( $user->user_login ) . "&key=$key&action=rp", 'login' ) . "\r\n\r\n";
+
+		$message .= wp_login_url() . "\r\n";
 
 		$wp_new_user_notification_email = array(
 			'to'      => $user->user_email,
@@ -2777,10 +2775,11 @@ if ( ! function_exists( 'wp_hash_password' ) ) :
 		 * - `PASSWORD_ARGON2ID`
 		 * - `PASSWORD_DEFAULT`
 		 *
-		 * @since 6.8.0
-		 * @since 7.0.0 The `$algorithm` parameter is now always a string.
+		 * The values of the algorithm constants are strings in PHP 7.4+ and integers in PHP 7.3 and earlier.
 		 *
-		 * @param string $algorithm The hashing algorithm. Default is the value of the `PASSWORD_BCRYPT` constant.
+		 * @since 6.8.0
+		 *
+		 * @param string|int $algorithm The hashing algorithm. Default is the value of the `PASSWORD_BCRYPT` constant.
 		 */
 		$algorithm = apply_filters( 'wp_hash_password_algorithm', PASSWORD_BCRYPT );
 
@@ -2790,13 +2789,14 @@ if ( ! function_exists( 'wp_hash_password' ) ) :
 		 * The default hashing algorithm is bcrypt, but this can be changed via the {@see 'wp_hash_password_algorithm'}
 		 * filter. You must ensure that the options are appropriate for the algorithm in use.
 		 *
-		 * @since 6.8.0
-		 * @since 7.0.0 The `$algorithm` parameter is now always a string.
+		 * The values of the algorithm constants are strings in PHP 7.4+ and integers in PHP 7.3 and earlier.
 		 *
-		 * @param array  $options   Array of options to pass to the password hashing functions.
-		 *                          By default this is an empty array which means the default
-		 *                          options will be used.
-		 * @param string $algorithm The hashing algorithm in use.
+		 * @since 6.8.0
+		 *
+		 * @param array      $options   Array of options to pass to the password hashing functions.
+		 *                              By default this is an empty array which means the default
+		 *                              options will be used.
+		 * @param string|int $algorithm The hashing algorithm in use.
 		 */
 		$options = apply_filters( 'wp_hash_password_options', array(), $algorithm );
 

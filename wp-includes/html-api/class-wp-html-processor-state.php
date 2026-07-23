@@ -16,7 +16,6 @@
  * @since 6.4.0
  *
  * @access private
- * @ignore
  *
  * @see WP_HTML_Processor
  */

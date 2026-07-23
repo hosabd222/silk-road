@@ -1,0 +1,60 @@
+/*
+ * @font-face declarations for the Persian font files that already sit in
+ * wp-content/themes/woodmart/fonts/ but were never registered anywhere —
+ * so the browser had no way to actually load them and fell back to system
+ * fonts everywhere, even though the theme's Typography settings reference
+ * them by name (e.g. "iranyekan").
+ */
+
+/* iranyekan — variable font, used site-wide as Body Font + Headings Font
+   (WP Admin > WoodMart > Theme Settings > Typography). One file covers the
+   full weight range. */
+@font-face {
+	font-family: 'iranyekan';
+	src: url('../woodmart/fonts/iranyekan/woff/IRANYekanXVF.woff2') format('woff2'),
+	     url('../woodmart/fonts/iranyekan/woff/IRANYekanXVF.woff') format('woff');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* YekanBakhFaNum */
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 100; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-Thin.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-Thin.woff') format('woff'); }
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 300; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-Light.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-Light.woff') format('woff'); }
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 400; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-Regular.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-Regular.woff') format('woff'); }
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 600; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-SemiBold.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-SemiBold.woff') format('woff'); }
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 700; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-Bold.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-Bold.woff') format('woff'); }
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 800; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-ExtraBold.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-ExtraBold.woff') format('woff'); }
+@font-face { font-family: 'YekanBakhFaNum'; font-weight: 900; font-style: normal; font-display: swap; src: url('../woodmart/fonts/bakh/woff2/YekanBakhFaNum-Black.woff2') format('woff2'), url('../woodmart/fonts/bakh/woff/YekanBakhFaNum-Black.woff') format('woff'); }
+
+/* DanaFaNum */
+@font-face { font-family: 'DanaFaNum'; font-weight: 100; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-Hairline.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 300; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-Light.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 400; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-Regular.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 500; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-Medium.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 600; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-DemiBold.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 700; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-Bold.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 800; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-ExtraBold.woff') format('woff'); }
+@font-face { font-family: 'DanaFaNum'; font-weight: 900; font-style: normal; font-display: swap; src: url('../woodmart/fonts/dana/woff/DanaFaNum-Black.woff') format('woff'); }
+
+/* IRANSansXFaNum */
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 100; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-Thin.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 200; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-UltraLight.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 300; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-Light.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 400; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-Regular.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 500; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-Medium.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 600; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-DemiBold.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 700; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-Bold.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 800; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-ExtraBold.woff') format('woff'); }
+@font-face { font-family: 'IRANSansXFaNum'; font-weight: 900; font-style: normal; font-display: swap; src: url('../woodmart/fonts/iransansx/woff/IRANSansXFaNum-Black.woff') format('woff'); }
+
+/* Shabnam */
+@font-face { font-family: 'Shabnam'; font-weight: 300; font-style: normal; font-display: swap; src: url('../woodmart/fonts/shabnam/Shabnam-Light-FD.woff2') format('woff2'), url('../woodmart/fonts/shabnam/Shabnam-Light-FD.woff') format('woff'); }
+@font-face { font-family: 'Shabnam'; font-weight: 400; font-style: normal; font-display: swap; src: url('../woodmart/fonts/shabnam/Shabnam-FD.woff2') format('woff2'), url('../woodmart/fonts/shabnam/Shabnam-FD.woff') format('woff'); }
+@font-face { font-family: 'Shabnam'; font-weight: 700; font-style: normal; font-display: swap; src: url('../woodmart/fonts/shabnam/Shabnam-Bold-FD.woff2') format('woff2'), url('../woodmart/fonts/shabnam/Shabnam-Bold-FD.woff') format('woff'); }
+
+/* Vazir — single weight file */
+@font-face { font-family: 'Vazir'; font-weight: 400; font-style: normal; font-display: swap; src: url('../woodmart/fonts/vazir.woff') format('woff'), url('../woodmart/fonts/vazir.ttf') format('truetype'); }
+
+/* Yekan — single weight file */
+@font-face { font-family: 'Yekan'; font-weight: 400; font-style: normal; font-display: swap; src: url('../woodmart/fonts/yekan.woff') format('woff'), url('../woodmart/fonts/yekan.ttf') format('truetype'); }

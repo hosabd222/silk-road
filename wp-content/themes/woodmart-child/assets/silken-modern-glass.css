@@ -1,0 +1,183 @@
+/* ==========================================================================
+   Silken Memories — Modern Glass
+   Enqueued only on template-silken-modern-glass.php.
+   ========================================================================== */
+
+.silken-glass {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	position: relative;
+	overflow: hidden;
+	padding: 70px 24px 110px;
+	background: linear-gradient(180deg, #fdfaf4, #f6ede1);
+}
+
+.silken-glass__blob {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(60px);
+	opacity: .45;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.silken-glass__blob--a {
+	width: 420px;
+	height: 420px;
+	top: -120px;
+	inset-inline-start: -100px;
+	background: #f3d9a8;
+}
+
+.silken-glass__blob--b {
+	width: 360px;
+	height: 360px;
+	top: 30%;
+	inset-inline-end: -140px;
+	background: #e6c9d8;
+}
+
+.silken-glass__blob--c {
+	width: 300px;
+	height: 300px;
+	bottom: -80px;
+	inset-inline-start: 30%;
+	background: #cfe0d8;
+}
+
+.silken-glass__intro {
+	position: relative;
+	z-index: 1;
+	max-width: 640px;
+	margin: 0 auto 40px;
+	text-align: center;
+	color: var(--silken-ink);
+}
+
+.silken-glass__intro h1 {
+	font-size: clamp(30px, 5vw, 44px);
+	margin-bottom: 12px;
+}
+
+.silken-glass__intro p {
+	opacity: .7;
+	line-height: 1.9;
+}
+
+/* Sticky pill timeline */
+
+.silken-glass__timeline {
+	position: sticky;
+	top: 12px;
+	z-index: 5;
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+	flex-wrap: wrap;
+	max-width: 720px;
+	margin: 0 auto 46px;
+	padding: 10px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, .55);
+	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(14px);
+	border: 1px solid rgba(255, 255, 255, .6);
+	box-shadow: 0 10px 30px rgba(120, 90, 50, .08);
+}
+
+.silken-glass__pill {
+	padding: 8px 18px;
+	border-radius: 999px;
+	font-size: 13px;
+	color: var(--silken-ink);
+	text-decoration: none;
+	opacity: .6;
+	transition: all .3s ease;
+	white-space: nowrap;
+}
+
+.silken-glass__pill:hover {
+	opacity: 1;
+}
+
+.silken-glass__pill.is-active {
+	background: var(--silken-gold);
+	color: #fff;
+	opacity: 1;
+}
+
+/* Card stack */
+
+.silken-glass__stack {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	gap: 28px;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.silken-glass__card {
+	border-radius: 24px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, .55);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+	border: 1px solid rgba(255, 255, 255, .65);
+	box-shadow: 0 20px 40px rgba(120, 90, 50, .1);
+	opacity: 0;
+	transform: translateY(26px) scale(.98);
+	transition: opacity .7s ease, transform .7s ease;
+	scroll-margin-top: 90px;
+}
+
+.silken-glass__card.is-in {
+	opacity: 1;
+	transform: translateY(0) scale(1);
+}
+
+.silken-glass__media {
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+}
+
+.silken-glass__media a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.silken-glass__media video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform .6s ease;
+}
+
+.silken-glass__card:hover .silken-glass__media video {
+	transform: scale(1.04);
+}
+
+.silken-glass__body {
+	padding: 20px 24px 26px;
+}
+
+.silken-glass__period {
+	display: block;
+	font-size: 12px;
+	letter-spacing: .1em;
+	color: var(--silken-gold);
+	margin-bottom: 8px;
+}
+
+.silken-glass__body h2 {
+	font-size: 19px;
+	color: var(--silken-ink);
+	margin: 0;
+}
+
+@media (max-width: 767px) {
+	.silken-glass__timeline { top: 8px; }
+}

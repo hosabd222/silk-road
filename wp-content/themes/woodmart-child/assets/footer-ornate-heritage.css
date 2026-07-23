@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Footer — Ornate Heritage
+   ========================================================================== */
+
+.silken-footer--ornate-heritage {
+	position: relative;
+	background: #f6ede1;
+	padding: 8px 24px 0;
+}
+
+.silken-footer__border-pattern {
+	display: block;
+	height: 10px;
+	background-image: repeating-linear-gradient(
+		135deg,
+		#b8894f 0 8px,
+		transparent 8px 16px
+	);
+	opacity: .55;
+	margin-bottom: 46px;
+}
+
+.silken-footer--ornate-heritage .silken-footer__top {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1.3fr 1fr 1fr 1fr;
+	gap: 34px;
+	padding-bottom: 40px;
+}
+
+.silken-footer--ornate-heritage .silken-footer__logo {
+	display: block;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 24px;
+	color: #3c2f22;
+	margin-bottom: 14px;
+}
+
+.silken-footer--ornate-heritage .silken-footer__col--about p {
+	color: #3c2f22;
+	opacity: .72;
+	line-height: 1.95;
+	font-size: 14px;
+}
+
+.silken-footer--ornate-heritage h3 {
+	font-family: Georgia, 'Times New Roman', serif;
+	color: #b8894f;
+	font-size: 16px;
+	margin-bottom: 16px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgba(184, 137, 79, .35);
+}
+
+.silken-footer--ornate-heritage ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.silken-footer--ornate-heritage ul li {
+	margin-bottom: 10px;
+}
+
+.silken-footer--ornate-heritage ul a {
+	color: #3c2f22;
+	opacity: .78;
+	text-decoration: none;
+	font-size: 14px;
+	transition: opacity .2s ease, color .2s ease;
+}
+
+.silken-footer--ornate-heritage ul a:hover {
+	opacity: 1;
+	color: #b8894f;
+}
+
+.silken-footer--ornate-heritage .silken-footer__contact li {
+	color: #3c2f22;
+	opacity: .78;
+	font-size: 14px;
+}
+
+.silken-footer--ornate-heritage .silken-footer__bottom {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px 0;
+	border-top: 1px solid rgba(60, 47, 34, .12);
+	text-align: center;
+}
+
+.silken-footer--ornate-heritage .silken-footer__bottom p {
+	color: #3c2f22;
+	opacity: .6;
+	font-size: 13px;
+	margin: 0;
+}
+
+@media (max-width: 900px) {
+	.silken-footer--ornate-heritage .silken-footer__top { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+	.silken-footer--ornate-heritage .silken-footer__top { grid-template-columns: 1fr; }
+}

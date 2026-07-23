@@ -1,0 +1,108 @@
+/* ==========================================================================
+   Account panel — Cards
+   ========================================================================== */
+
+.silken-account--cards {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	background: #fdfaf4;
+	padding: 50px 24px 90px;
+}
+
+.silken-account__welcome {
+	max-width: 1100px;
+	margin: 0 auto 30px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.silken-account__welcome img {
+	border-radius: 50%;
+	border: 2px solid var(--silken-gold);
+}
+
+.silken-account__welcome-label {
+	display: block;
+	font-size: 12px;
+	color: var(--silken-gold);
+	letter-spacing: .08em;
+	margin-bottom: 4px;
+}
+
+.silken-account__welcome h1 {
+	font-size: 22px;
+	color: var(--silken-ink);
+	margin: 0;
+}
+
+.silken-account__cards-nav {
+	max-width: 1100px;
+	margin: 0 auto 30px;
+}
+
+.silken-account__cards-nav .woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 14px;
+}
+
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link a {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 22px 12px;
+	border-radius: 16px;
+	background: #fff;
+	color: var(--silken-ink);
+	text-decoration: none;
+	font-size: 13px;
+	text-align: center;
+	box-shadow: 0 10px 22px rgba(120, 90, 50, .07);
+	transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link a::before {
+	font-size: 22px;
+	content: '\2726';
+}
+
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--dashboard a::before { content: '\1F3E0'; }
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--orders a::before { content: '\1F4E6'; }
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--downloads a::before { content: '\2B07'; }
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--edit-address a::before { content: '\1F4CD'; }
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--payment-methods a::before { content: '\1F4B3'; }
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--edit-account a::before { content: '\2699'; }
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link--customer-logout a::before { content: '\1F6AA'; }
+
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link a:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 16px 30px rgba(120, 90, 50, .14);
+}
+
+.silken-account__cards-nav .woocommerce-MyAccount-navigation-link.is-active a {
+	background: var(--silken-gold);
+	color: #fff;
+}
+
+.silken-account--cards .silken-account__content {
+	max-width: 1100px;
+	margin: 0 auto;
+	background: #fff;
+	border-radius: 18px;
+	padding: 34px;
+	color: var(--silken-ink);
+	line-height: 1.9;
+	box-shadow: 0 12px 28px rgba(120, 90, 50, .08);
+}
+
+.silken-account--cards .silken-account__content .button {
+	background: var(--silken-gold);
+	color: #fff;
+	border-radius: 8px;
+	padding: 10px 18px;
+}

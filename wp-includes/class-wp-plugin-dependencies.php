@@ -200,7 +200,11 @@ class WP_Plugin_Dependencies {
 	 * @return array An array of dependency plugin slugs.
 	 */
 	public static function get_dependencies( $plugin_file ) {
-		return self::$dependencies[ $plugin_file ] ?? array();
+		if ( isset( self::$dependencies[ $plugin_file ] ) ) {
+			return self::$dependencies[ $plugin_file ];
+		}
+
+		return array();
 	}
 
 	/**
@@ -350,7 +354,12 @@ class WP_Plugin_Dependencies {
 	 */
 	public static function get_dependency_data( $slug ) {
 		$dependency_api_data = self::get_dependency_api_data();
-		return $dependency_api_data[ $slug ] ?? false;
+
+		if ( isset( $dependency_api_data[ $slug ] ) ) {
+			return $dependency_api_data[ $slug ];
+		}
+
+		return false;
 	}
 
 	/**

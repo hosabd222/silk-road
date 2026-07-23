@@ -1,103 +1,180 @@
 <?php
+
 /**
+
  * The base configuration for WordPress
+
  *
+
  * The wp-config.php creation script uses this file during the installation.
+
  * You don't have to use the web site, you can copy this file to "wp-config.php"
+
  * and fill in the values.
+
  *
+
  * This file contains the following configurations:
+
  *
- * * Database settings
+
+ * * MySQL settings
+
  * * Secret keys
+
  * * Database table prefix
- * * Localized language
+
  * * ABSPATH
+
  *
+
  * @link https://wordpress.org/support/article/editing-wp-config-php/
+
  *
+
  * @package WordPress
+
  */
 
-// ** Database settings - You can get this info from your web host ** //
+
+// ** MySQL settings - You can get this info from your web host ** //
+
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'local' );
 
-/** Database username */
-define( 'DB_USER', 'root' );
+define( 'DB_NAME', "local" );
 
-/** Database password */
-define( 'DB_PASSWORD', 'root' );
 
-/** Database hostname */
-define( 'DB_HOST', 'localhost' );
+/** MySQL database username */
+
+define( 'DB_USER', "root" );
+
+
+/** MySQL database password */
+
+define( 'DB_PASSWORD', "root" );
+
+
+/** MySQL hostname */
+
+define( 'DB_HOST', "localhost" );
+
 
 /** Database charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8' );
+
+define( 'DB_CHARSET', 'utf8mb4' );
+
 
 /** The database collate type. Don't change this if in doubt. */
+
 define( 'DB_COLLATE', '' );
 
+
 /**#@+
+
  * Authentication unique keys and salts.
+
  *
+
  * Change these to different unique phrases! You can generate these using
+
  * the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}.
+
  *
+
  * You can change these at any point in time to invalidate all existing cookies.
+
  * This will force all users to have to log in again.
+
  *
+
  * @since 2.6.0
+
  */
-define( 'AUTH_KEY',          '*&j$6wJ9O`pJ!$7/c&`h0Sk[?UND!@4b]L1<+}wM#MsEM6739JOz3/UJuM[:>(BV' );
-define( 'SECURE_AUTH_KEY',   'J[T3L1j>P**gi3n9WNH^k<7K~_:~OoV]g+BpbmzcdTGz!QRe+fkF=avi8]Kq%7H4' );
-define( 'LOGGED_IN_KEY',     'x42qK.1z[D^A-tM!:i<#0<jhISpAJ5S(yXgN3dpP^S+kcJkR6mUU*YWiCZBcIqQ,' );
-define( 'NONCE_KEY',         '1puiR&5|f(4z1||/<W/39OtUqla^GnYS>^MmOV.J?6W`55MD+N$Ym~(EAE+q@et_' );
-define( 'AUTH_SALT',         '*;^aN;v;AW[{YqGyUk>eS_y2adO8^C7ETZbeRobmi^BJM123~nd$~-OHmjS7$6Y0' );
-define( 'SECURE_AUTH_SALT',  'xz#fY~Ipo+$HY/rwAvY^Zd7qe&(3Fk-I>5*2i(,TJ.gYe`2I`G7E;Kv0b%U-|Kti' );
-define( 'LOGGED_IN_SALT',    'Oz&6;>Y/cIk3d)rb)oGNz`5lkC8%*,_/S<%so)(L;wr>~Iz_:s50c?|8Xuo.PQ|9' );
-define( 'NONCE_SALT',        '{Z|pflGua.>)e[!{)sWmYKRzad-}DvD|U>4q8k)P>@kSSU)OtAlI?qk]|=ROROS_' );
-define( 'WP_CACHE_KEY_SALT', 'tje*P5A}#iEB0G>Rx..Qxrj<WS+@,XHFO/C]9M;g7]ZKZ*}1[:{5.E#d![65rrt ' );
+
+define( 'AUTH_KEY',         ')ad6%6g7k02$Z<O&*,1w0UyMiA3M&$~aj-vl)Z@oz{GSrhi!%;g{*<;0D6G@|Dq(' );
+
+define( 'SECURE_AUTH_KEY',  ')rV=:cc5LY~bd.@f%I}:P}J1+kWTRQseUR_rj{3#2V@pk2 <1X;4S<(.?%7R#Z84' );
+
+define( 'LOGGED_IN_KEY',    ':7f >gb9,Re`KnKl<9#Eb{sA< WW`u:?nXy$#*2<]^:@)=3$9dU:bp^ ~A)FIEHi' );
+
+define( 'NONCE_KEY',        's2b_}b~3`R,Nn=Qn7f@B4WaBWuNqv~iFC];vy=IT@hwI-ABra>SBMl=.i;WqD!1,' );
+
+define( 'AUTH_SALT',        'r9o*SCdY9_d?5i&-E:YkfE^_<nFfAuTJpnlHz4^7$&D>uq3U1MmNudBM[r:B)mC9' );
+
+define( 'SECURE_AUTH_SALT', 'cMi8BZK^/Nu1&}{o9KsA.e,?FX6ml@-TtP6_6fE:in%!-=^<-Zva;_G9@V97LB9M' );
+
+define( 'LOGGED_IN_SALT',   'lg-`g2BJY`m6;{+y3G(i^O~88Kk@qsC?kOJ#+DA)uP4:W>GOviZHnP ho_iDae~t' );
+
+define( 'NONCE_SALT',       'q.VidCjx<xxb;Ia*nUdOWHezb<yDe.twSU.QXVYDWz}#VEtbAGxT>^w m]FnkVD{' );
 
 
 /**#@-*/
 
+
 /**
+
  * WordPress database table prefix.
+
  *
+
  * You can have multiple installations in one database if you give each
+
  * a unique prefix. Only numbers, letters, and underscores please!
+
  */
+
 $table_prefix = 'wp_';
+
+
+/**
+
+ * For developers: WordPress debugging mode.
+
+ *
+
+ * Change this to true to enable the display of notices during development.
+
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+
+ * in their development environments.
+
+ *
+
+ * For information on other constants that can be used for debugging,
+
+ * visit the documentation.
+
+ *
+
+ * @link https://wordpress.org/support/article/debugging-in-wordpress/
+
+ */
+
+define( 'WP_DEBUG', false );
+
+define( 'WP_POST_REVISIONS', false );
 
 
 /* Add any custom values between this line and the "stop editing" line. */
 
 
 
-/**
- * For developers: WordPress debugging mode.
- *
- * Change this to true to enable the display of notices during development.
- * It is strongly recommended that plugin and theme developers use WP_DEBUG
- * in their development environments.
- *
- * For information on other constants that can be used for debugging,
- * visit the documentation.
- *
- * @link https://wordpress.org/support/article/debugging-in-wordpress/
- */
-if ( ! defined( 'WP_DEBUG' ) ) {
-	define( 'WP_DEBUG', false );
-}
 
+define( 'WP_SITEURL', 'http://silk-road.local' );
 define( 'WP_ENVIRONMENT_TYPE', 'local' );
 /* That's all, stop editing! Happy publishing. */
 
+
 /** Absolute path to the WordPress directory. */
+
 if ( ! defined( 'ABSPATH' ) ) {
+
 	define( 'ABSPATH', __DIR__ . '/' );
+
 }
 
+
 /** Sets up WordPress vars and included files. */
+
 require_once ABSPATH . 'wp-settings.php';
+

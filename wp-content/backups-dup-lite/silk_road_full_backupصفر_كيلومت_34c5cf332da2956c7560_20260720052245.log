@@ -1,0 +1,75 @@
+********************************************************************************
+DUPLICATOR-LITE PACKAGE-LOG: July 20, 2026 5:23 am
+NOTICE: Do NOT post to public sites or forums 
+********************************************************************************
+VERSION:	1.5.14
+WORDPRESS:	6.9
+PHP INFO:	8.2.29 | SAPI: cgi-fcgi
+SERVER:		nginx/1.26.1 
+PHP TIME LIMIT: (0) no time limit imposed 
+PHP MAX MEMORY: 4294967296 (256M default) 
+MEMORY STACK: 30MB
+
+********************************************************************************
+DATABASE:
+********************************************************************************
+BUILD MODE:   PHP(query limit - 100)
+MYSQLTIMEOUT: 5000
+MYSQLDUMP:    Not Supported
+TABLES: total:67 | filtered:0 | create:67
+FILTERED: []
+SQL CREATED: silk_road_full_backupصفر_كيلومت_34c5cf332da2956c7560_20260720052245_database.sql
+SQL FILE SIZE: 3.4MB (3567871)
+SQL FILE TIME: 2026-07-20 05:23:43
+SQL RUNTIME: 0.81 sec.
+
+********************************************************************************
+ARCHIVE (ZIP):
+********************************************************************************
+ARCHIVE DIR:  C:/Users/admin/Local Sites/silk-road/app/public
+ARCHIVE FILE: silk_road_full_backupصفر_كيلومت_34c5cf332da2956c7560_20260720052245_archive.zip
+FILTERS: *OFF*
+DIRS:
+	not set
+FILES:
+	not set
+EXTS:  not set
+----------------------------------------
+COMPRESSING
+SIZE:	480.86MB
+STATS:	Dirs 3,441 | Files 20,358
+SQL ADDED: silk_road_full_backupصفر_كيلومت_34c5cf332da2956c7560_20260720052245_database.sql
+ZipArchive Object
+(
+    [lastId] => 23798
+    [status] => 0
+    [statusSys] => 0
+    [numFiles] => 23799
+    [filename] => C:\Users\admin\Local Sites\silk-road\app\public\wp-content\backups-dup-lite\tmp\silk_road_full_backupصفر_كيلومت_34c5cf332da2956c7560_20260720052245_archive.zip
+    [comment] => 
+)
+
+FILE ADDED TO ZIP: 23798
+COMPRESSION RESULT: '1'
+COMPRESSED SIZE: 148.72MB
+ARCHIVE RUNTIME: 27.76 sec.
+MEMORY STACK: 36MB
+building installer
+آزمون ثبات آرشیو: قبولی
+
+********************************************************************************
+INTEGRITY CHECKS:
+********************************************************************************
+SQL FILE: 3.4MB
+INSTALLER FILE: 73.51KB
+ARCHIVE FILE: 150.87MB 
+فایل / فایل مورد انتظار COUNT: 23,799
+فایل ACTIVAL / فهرستها COUNT: 23,798
+تست هماهنگی آرشیو: گذراندن
+
+********************************************************************************
+RECORD ID:[11]
+TOTAL PROCESS RUNTIME: 30.66 sec.
+PEAK PHP MEMORY USED: 40MB
+DONE PROCESSING => silk_road_full_backupصفر_كيلومت July 20, 2026 5:24 am
+

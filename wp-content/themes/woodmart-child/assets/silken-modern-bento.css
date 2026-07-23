@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Silken Memories — Modern Bento
+   Enqueued only on template-silken-modern-bento.php.
+   ========================================================================== */
+
+.silken-bento {
+	--silken-ink: #1c1712;
+	--silken-gold: #c9a36a;
+	background: #14110d;
+	padding: 70px 24px 100px;
+}
+
+.silken-bento__intro {
+	max-width: 640px;
+	margin: 0 auto 36px;
+	text-align: center;
+	color: #f5f0e6;
+}
+
+.silken-bento__intro h1 {
+	font-size: clamp(28px, 5vw, 42px);
+	margin-bottom: 12px;
+}
+
+.silken-bento__intro p {
+	opacity: .65;
+}
+
+.silken-bento__timeline {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+	max-width: 900px;
+	margin: 0 auto 34px;
+}
+
+.silken-bento__tag {
+	padding: 7px 16px;
+	border-radius: 999px;
+	border: 1px solid rgba(245, 240, 230, .25);
+	background: transparent;
+	color: #f5f0e6;
+	font-size: 12px;
+	opacity: .7;
+	cursor: pointer;
+	transition: all .25s ease;
+}
+
+.silken-bento__tag:hover,
+.silken-bento__tag.is-active {
+	opacity: 1;
+	background: var(--silken-gold);
+	border-color: var(--silken-gold);
+	color: #1a1408;
+}
+
+.silken-bento__grid {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-auto-rows: 130px;
+	gap: 14px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.silken-bento__cell {
+	position: relative;
+	border-radius: 18px;
+	overflow: hidden;
+	grid-column: span 2;
+	grid-row: span 2;
+}
+
+.silken-bento__cell.is-hero { grid-column: span 4; grid-row: span 3; }
+.silken-bento__cell.is-tall { grid-column: span 2; grid-row: span 4; }
+.silken-bento__cell.is-wide { grid-column: span 4; grid-row: span 2; }
+.silken-bento__cell.is-normal { grid-column: span 2; grid-row: span 2; }
+
+.silken-bento__cell.is-pulse {
+	animation: silken-bento-pulse 1s ease;
+}
+
+@keyframes silken-bento-pulse {
+	0%, 100% { box-shadow: 0 0 0 0 rgba(201, 163, 106, 0); }
+	40% { box-shadow: 0 0 0 6px rgba(201, 163, 106, .55); }
+}
+
+.silken-bento__link {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.silken-bento__video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform .5s ease, filter .5s ease;
+	filter: saturate(.92) brightness(.85);
+}
+
+.silken-bento__cell:hover .silken-bento__video {
+	transform: scale(1.06);
+	filter: saturate(1) brightness(.95);
+}
+
+.silken-bento__scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(10, 8, 5, .92) 0%, rgba(10, 8, 5, .05) 55%);
+}
+
+.silken-bento__info {
+	position: absolute;
+	inset-inline-start: 16px;
+	inset-block-end: 14px;
+	inset-inline-end: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.silken-bento__period {
+	font-size: 11px;
+	letter-spacing: .12em;
+	color: var(--silken-gold);
+}
+
+.silken-bento__title {
+	font-size: 15px;
+	color: #fff;
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+.silken-bento__cell.is-hero .silken-bento__title { font-size: 20px; }
+
+@media (max-width: 900px) {
+	.silken-bento__grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 110px; }
+	.silken-bento__cell.is-hero { grid-column: span 4; grid-row: span 3; }
+	.silken-bento__cell.is-tall { grid-column: span 2; grid-row: span 3; }
+	.silken-bento__cell.is-wide { grid-column: span 4; grid-row: span 2; }
+	.silken-bento__cell.is-normal { grid-column: span 2; grid-row: span 2; }
+}
+
+@media (max-width: 560px) {
+	.silken-bento__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+	.silken-bento__cell,
+	.silken-bento__cell.is-hero,
+	.silken-bento__cell.is-tall,
+	.silken-bento__cell.is-wide,
+	.silken-bento__cell.is-normal { grid-column: span 2; grid-row: span 2; }
+}

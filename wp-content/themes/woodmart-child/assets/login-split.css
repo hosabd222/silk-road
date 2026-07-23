@@ -1,0 +1,166 @@
+/* ==========================================================================
+   Login/Register — Split
+   ========================================================================== */
+
+.silken-auth--split {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	min-height: 640px;
+}
+
+.silken-auth__panel {
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-color: #14110d;
+	display: flex;
+	align-items: flex-end;
+}
+
+.silken-auth__panel-scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(10, 8, 5, .9), rgba(10, 8, 5, .35));
+}
+
+.silken-auth__panel-text {
+	position: relative;
+	z-index: 1;
+	padding: 50px 44px;
+	color: #fff;
+}
+
+.silken-auth__eyebrow {
+	display: inline-block;
+	letter-spacing: .25em;
+	text-transform: uppercase;
+	font-size: 11px;
+	color: var(--silken-gold);
+	margin-bottom: 16px;
+}
+
+.silken-auth__panel-text h1 {
+	font-size: clamp(24px, 3vw, 32px);
+	margin: 0 0 14px;
+	line-height: 1.4;
+}
+
+.silken-auth__panel-text p {
+	color: rgba(255, 255, 255, .78);
+	line-height: 1.9;
+	font-size: 14px;
+}
+
+.silken-auth__forms {
+	background: #fff;
+	padding: 60px 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.silken-auth--split h2 {
+	font-size: 19px;
+	color: var(--silken-ink);
+	margin: 0 0 18px;
+}
+
+.silken-auth--split .woocommerce-form-row label {
+	display: block;
+	font-size: 13px;
+	color: var(--silken-ink);
+	margin-bottom: 6px;
+}
+
+.silken-auth--split .input-text {
+	width: 100%;
+	padding: 12px 14px;
+	border-radius: 10px;
+	border: 1px solid rgba(60, 47, 34, .18);
+	background: #fdfaf4;
+	font-size: 14px;
+	box-sizing: border-box;
+	transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.silken-auth--split .input-text:focus {
+	outline: none;
+	border-color: var(--silken-gold);
+	box-shadow: 0 0 0 3px rgba(184, 137, 79, .15);
+}
+
+.silken-auth--split .form-row {
+	margin-bottom: 16px;
+}
+
+.silken-auth--split .woocommerce-form-login__rememberme {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	color: var(--silken-ink);
+	margin-bottom: 14px;
+}
+
+.silken-auth--split button[type="submit"] {
+	display: block;
+	width: 100%;
+	padding: 13px;
+	border: none;
+	border-radius: 10px;
+	background: var(--silken-ink);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background .25s ease;
+}
+
+.silken-auth--split button[type="submit"]:hover {
+	background: var(--silken-gold);
+}
+
+.silken-auth--split .lost_password {
+	margin-top: 12px;
+}
+
+.silken-auth--split .lost_password a {
+	font-size: 13px;
+	color: var(--silken-gold);
+	text-decoration: none;
+}
+
+.silken-auth--split .silken-auth__divider {
+	position: relative;
+	text-align: center;
+	margin: 26px 0;
+}
+
+.silken-auth--split .silken-auth__divider::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	inset-inline: 0;
+	height: 1px;
+	background: rgba(60, 47, 34, .12);
+}
+
+.silken-auth--split .silken-auth__divider span {
+	position: relative;
+	background: #fff;
+	padding: 0 14px;
+	font-size: 12px;
+	color: var(--silken-ink);
+	opacity: .55;
+}
+
+.silken-auth--split .required {
+	color: #b3462c;
+}
+
+@media (max-width: 900px) {
+	.silken-auth--split { grid-template-columns: 1fr; }
+	.silken-auth__panel { min-height: 260px; }
+}

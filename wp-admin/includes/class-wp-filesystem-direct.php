@@ -170,22 +170,6 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 		}
 
 		if ( ! $recursive || ! $this->is_dir( $file ) ) {
-			$current_mode = fileperms( $file ) & 0777 | 0644;
-
-			/*
-			 * fileperms() populates the stat cache, so have to clear it
-			 * to maintain parity with the previous behavior.
-			 */
-			clearstatcache( true, $file );
-
-			/*
-			 * Avoid calling chmod() if the requested mode is already set,
-			 * to prevent throwing a warning when we aren't the owner.
-			 */
-			if ( $current_mode === $mode ) {
-				return true;
-			}
-
 			return chmod( $file, $mode );
 		}
 
@@ -265,18 +249,15 @@ class WP_Filesystem_Direct extends WP_Filesystem_Base {
 	/**
 	 * Gets the permissions of the specified file or filepath in their octal format.
 	 *
+	 * FIXME does not handle errors in fileperms()
+	 *
 	 * @since 2.5.0
 	 *
 	 * @param string $file Path to the file.
-	 * @return string Mode of the file (the last 3 digits), or the string "0" on failure.
+	 * @return string Mode of the file (the last 3 digits).
 	 */
 	public function getchmod( $file ) {
-		$perms = @fileperms( $file );
-		if ( false === $perms ) {
-			return '0';
-		}
-
-		return substr( decoct( $perms ), -3 );
+		return substr( decoct( @fileperms( $file ) ), -3 );
 	}
 
 	/**

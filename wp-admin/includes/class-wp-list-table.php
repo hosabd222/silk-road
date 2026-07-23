@@ -80,14 +80,14 @@ class WP_List_Table {
 	protected $_column_headers;
 
 	/**
-	 * List of private properties made readable for backward compatibility.
+	 * {@internal Missing Summary}
 	 *
 	 * @var array
 	 */
 	protected $compat_fields = array( '_args', '_pagination_args', 'screen', '_actions', '_pagination' );
 
 	/**
-	 * List of private/protected methods made readable for backward compatibility.
+	 * {@internal Missing Summary}
 	 *
 	 * @var array
 	 */
@@ -280,7 +280,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Checks the current user's permissions.
+	 * Checks the current user's permissions
 	 *
 	 * @since 3.1.0
 	 * @abstract
@@ -344,7 +344,12 @@ class WP_List_Table {
 		if ( 'page' === $key ) {
 			return $this->get_pagenum();
 		}
-		return $this->_pagination_args[ $key ] ?? 0;
+
+		if ( isset( $this->_pagination_args[ $key ] ) ) {
+			return $this->_pagination_args[ $key ];
+		}
+
+		return 0;
 	}
 
 	/**
@@ -352,7 +357,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return bool Whether the table has items to display.
+	 * @return bool
 	 */
 	public function has_items() {
 		return ! empty( $this->items );
@@ -404,7 +409,7 @@ class WP_List_Table {
 <p class="search-box">
 	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo $text; ?>:</label>
 	<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>" />
-		<?php submit_button( $text, 'button-compact', '', false, array( 'id' => 'search-submit' ) ); ?>
+		<?php submit_button( $text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
 </p>
 		<?php
 	}
@@ -490,7 +495,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array<string, string> An associative array of views.
+	 * @return array
 	 */
 	protected function get_views() {
 		return array();
@@ -554,7 +559,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @since 5.6.0 A bulk action can now contain an array of options in order to create an optgroup.
 	 *
-	 * @return array<string, string|array<string, string>> An associative array of bulk actions.
+	 * @return array
 	 */
 	protected function get_bulk_actions() {
 		return array();
@@ -620,7 +625,7 @@ class WP_List_Table {
 
 		echo "</select>\n";
 
-		submit_button( __( 'Apply' ), 'action button-compact', 'bulk_action', false, array( 'id' => "doaction$two" ) );
+		submit_button( __( 'Apply' ), 'action', 'bulk_action', false, array( 'id' => "doaction$two" ) );
 		echo "\n";
 	}
 
@@ -954,7 +959,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return int Current page number.
+	 * @return int
 	 */
 	public function get_pagenum() {
 		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
@@ -973,7 +978,7 @@ class WP_List_Table {
 	 *
 	 * @param string $option        User option name.
 	 * @param int    $default_value Optional. The number of items to display. Default 20.
-	 * @return int Number of items to display per page.
+	 * @return int
 	 */
 	protected function get_items_per_page( $option, $default_value = 20 ) {
 		$per_page = (int) get_user_option( $option );
@@ -1179,7 +1184,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @abstract
 	 *
-	 * @return array<string, string> An associative array of columns.
+	 * @return array
 	 */
 	public function get_columns() {
 		die( 'function WP_List_Table::get_columns() must be overridden in a subclass.' );
@@ -1202,7 +1207,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @since 6.3.0 Added 'abbr', 'orderby-text' and 'initially-sorted-column-order'.
 	 *
-	 * @return array<string, array<int, string|bool>|string> An associative array of sortable columns.
+	 * @return array
 	 */
 	protected function get_sortable_columns() {
 		return array();
@@ -1293,7 +1298,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array<int, array|string> Column information.
+	 * @return array
 	 */
 	protected function get_column_info() {
 		// $_column_headers is already set / cached.
@@ -1376,7 +1381,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return int The number of visible columns.
+	 * @return int
 	 */
 	public function get_column_count() {
 		list ( $columns, $hidden ) = $this->get_column_info();
@@ -1446,11 +1451,11 @@ class WP_List_Table {
 			}
 
 			if ( isset( $sortable[ $column_key ] ) ) {
-				$orderby       = $sortable[ $column_key ][0] ?? '';
-				$desc_first    = $sortable[ $column_key ][1] ?? false;
-				$abbr          = $sortable[ $column_key ][2] ?? '';
-				$orderby_text  = $sortable[ $column_key ][3] ?? '';
-				$initial_order = $sortable[ $column_key ][4] ?? '';
+				$orderby       = isset( $sortable[ $column_key ][0] ) ? $sortable[ $column_key ][0] : '';
+				$desc_first    = isset( $sortable[ $column_key ][1] ) ? $sortable[ $column_key ][1] : false;
+				$abbr          = isset( $sortable[ $column_key ][2] ) ? $sortable[ $column_key ][2] : '';
+				$orderby_text  = isset( $sortable[ $column_key ][3] ) ? $sortable[ $column_key ][3] : '';
+				$initial_order = isset( $sortable[ $column_key ][4] ) ? $sortable[ $column_key ][4] : '';
 
 				/*
 				 * We're in the initial view and there's no $_GET['orderby'] then check if the
@@ -1562,11 +1567,11 @@ class WP_List_Table {
 		foreach ( array_keys( $columns ) as $column_key ) {
 
 			if ( isset( $sortable[ $column_key ] ) ) {
-				$orderby       = $sortable[ $column_key ][0] ?? '';
-				$desc_first    = $sortable[ $column_key ][1] ?? false;
-				$abbr          = $sortable[ $column_key ][2] ?? '';
-				$orderby_text  = $sortable[ $column_key ][3] ?? '';
-				$initial_order = $sortable[ $column_key ][4] ?? '';
+				$orderby       = isset( $sortable[ $column_key ][0] ) ? $sortable[ $column_key ][0] : '';
+				$desc_first    = isset( $sortable[ $column_key ][1] ) ? $sortable[ $column_key ][1] : false;
+				$abbr          = isset( $sortable[ $column_key ][2] ) ? $sortable[ $column_key ][2] : '';
+				$orderby_text  = isset( $sortable[ $column_key ][3] ) ? $sortable[ $column_key ][3] : '';
+				$initial_order = isset( $sortable[ $column_key ][4] ) ? $sortable[ $column_key ][4] : '';
 
 				if ( ! is_string( $orderby_text ) || '' === $orderby_text ) {
 					return;
@@ -1692,7 +1697,7 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string $which The location: 'top' or 'bottom'.
+	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {}
 
@@ -1866,6 +1871,6 @@ class WP_List_Table {
 			),
 		);
 
-		printf( "<script>list_args = %s;</script>\n", wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
+		printf( "<script type='text/javascript'>list_args = %s;</script>\n", wp_json_encode( $args, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ) );
 	}
 }

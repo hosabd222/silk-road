@@ -492,7 +492,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetGet( $offset ) {
-		return $this->callbacks[ $offset ] ?? null;
+		return isset( $this->callbacks[ $offset ] ) ? $this->callbacks[ $offset ] : null;
 	}
 
 	/**

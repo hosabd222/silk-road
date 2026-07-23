@@ -1,0 +1,126 @@
+/* ==========================================================================
+   About Us — Values
+   ========================================================================== */
+
+.silken-about--values {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	background: #fff;
+}
+
+.silken-about-val__hero {
+	max-width: 680px;
+	margin: 0 auto;
+	padding: 90px 24px 60px;
+	text-align: center;
+}
+
+.silken-about-val__eyebrow {
+	display: inline-block;
+	letter-spacing: .28em;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: var(--silken-gold);
+	margin-bottom: 16px;
+}
+
+.silken-about-val__hero h1 {
+	font-size: clamp(32px, 5.5vw, 52px);
+	color: var(--silken-ink);
+	margin: 0 0 18px;
+}
+
+.silken-about-val__hero p {
+	color: var(--silken-ink);
+	opacity: .75;
+	line-height: 1.95;
+}
+
+.silken-about-val__grid {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 24px 70px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 22px;
+}
+
+.silken-about-val__card {
+	padding: 32px 22px;
+	border-radius: 18px;
+	background: #fdfaf4;
+	border: 1px solid rgba(184, 137, 79, .15);
+	text-align: center;
+	transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.silken-about-val__card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 20px 36px rgba(120, 90, 50, .14);
+}
+
+.silken-about-val__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 54px;
+	height: 54px;
+	border-radius: 50%;
+	background: rgba(184, 137, 79, .12);
+	font-size: 22px;
+	margin-bottom: 16px;
+}
+
+.silken-about-val__card h3 {
+	font-size: 16px;
+	color: var(--silken-ink);
+	margin: 0 0 10px;
+}
+
+.silken-about-val__card p {
+	font-size: 13px;
+	color: var(--silken-ink);
+	opacity: .7;
+	line-height: 1.8;
+	margin: 0;
+}
+
+.silken-about-val__quote {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 40px 24px 80px;
+	text-align: center;
+}
+
+.silken-about-val__quote blockquote {
+	margin: 0;
+	font-size: clamp(20px, 3vw, 28px);
+	color: var(--silken-ink);
+	line-height: 1.7;
+	position: relative;
+}
+
+.silken-about-val__quote blockquote::before {
+	content: '';
+	display: block;
+	width: 60px;
+	height: 3px;
+	background: var(--silken-gold);
+	margin: 0 auto 26px;
+}
+
+.silken-about-val__content {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 0 24px 90px;
+	color: var(--silken-ink);
+	line-height: 2;
+}
+
+@media (max-width: 900px) {
+	.silken-about-val__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+	.silken-about-val__grid { grid-template-columns: 1fr; }
+}

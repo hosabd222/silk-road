@@ -1,0 +1,198 @@
+/* ==========================================================================
+   Blog index — Magazine
+   ========================================================================== */
+
+.silken-blog--magazine {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	background: #fdfaf4;
+	padding: 60px 24px 90px;
+}
+
+.silken-blog__intro {
+	max-width: 680px;
+	margin: 0 auto 44px;
+	text-align: center;
+	color: var(--silken-ink);
+}
+
+.silken-blog__intro h1 {
+	font-size: clamp(28px, 4.5vw, 42px);
+	margin-bottom: 12px;
+}
+
+.silken-blog__intro p {
+	opacity: .72;
+	line-height: 1.9;
+}
+
+.silken-blog__layout {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 26px;
+}
+
+.silken-blog__feature {
+	grid-column: span 3;
+	position: relative;
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	background: #fff;
+	border-radius: 20px;
+	overflow: hidden;
+	box-shadow: 0 20px 44px rgba(120, 90, 50, .12);
+}
+
+.silken-blog__feature-media {
+	position: relative;
+	display: block;
+	min-height: 320px;
+	background: #eee1cd;
+}
+
+.silken-blog__feature-media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.silken-blog__feature-scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(20, 15, 8, .1), transparent 40%);
+}
+
+.silken-blog__feature-body {
+	padding: 36px 34px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.silken-blog__cat {
+	display: inline-block;
+	align-self: flex-start;
+	font-size: 11px;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: #fff;
+	background: var(--silken-gold);
+	padding: 5px 14px;
+	border-radius: 999px;
+	margin-bottom: 14px;
+}
+
+.silken-blog__feature-body h2 {
+	font-size: 26px;
+	line-height: 1.4;
+	margin: 0 0 14px;
+}
+
+.silken-blog__feature-body h2 a,
+.silken-blog__card-body h3 a {
+	color: var(--silken-ink);
+	text-decoration: none;
+	transition: color .25s ease;
+}
+
+.silken-blog__feature-body h2 a:hover,
+.silken-blog__card-body h3 a:hover {
+	color: var(--silken-gold);
+}
+
+.silken-blog__feature-body p {
+	color: var(--silken-ink);
+	opacity: .75;
+	line-height: 1.9;
+	margin: 0 0 18px;
+}
+
+.silken-blog__meta {
+	display: flex;
+	gap: 14px;
+	font-size: 12px;
+	color: var(--silken-ink);
+	opacity: .55;
+}
+
+.silken-blog__card {
+	background: #fff;
+	border-radius: 16px;
+	overflow: hidden;
+	box-shadow: 0 12px 28px rgba(120, 90, 50, .08);
+	transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.silken-blog__card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 20px 36px rgba(120, 90, 50, .16);
+}
+
+.silken-blog__card-media {
+	display: block;
+	aspect-ratio: 4 / 3;
+	background: #eee1cd;
+	overflow: hidden;
+}
+
+.silken-blog__card-media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform .5s ease;
+}
+
+.silken-blog__card:hover .silken-blog__card-media img {
+	transform: scale(1.06);
+}
+
+.silken-blog__card-body {
+	padding: 20px;
+}
+
+.silken-blog__card-body h3 {
+	font-size: 17px;
+	margin: 0 0 10px;
+	line-height: 1.5;
+}
+
+.silken-blog__pagination {
+	max-width: 1200px;
+	margin: 46px auto 0;
+	text-align: center;
+}
+
+.silken-blog__pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 38px;
+	height: 38px;
+	margin: 0 3px;
+	padding: 0 10px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--silken-ink);
+	text-decoration: none;
+	font-size: 13px;
+	box-shadow: 0 4px 10px rgba(120, 90, 50, .1);
+}
+
+.silken-blog__pagination .page-numbers.current {
+	background: var(--silken-gold);
+	color: #fff;
+}
+
+@media (max-width: 900px) {
+	.silken-blog__layout { grid-template-columns: repeat(2, 1fr); }
+	.silken-blog__feature { grid-column: span 2; grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+	.silken-blog__layout { grid-template-columns: 1fr; }
+	.silken-blog__feature { grid-column: span 1; }
+}

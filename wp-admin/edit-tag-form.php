@@ -312,7 +312,7 @@ do_action( "{$taxonomy}_edit_form", $tag, $taxonomy );
 </div>
 
 <?php if ( ! wp_is_mobile() ) : ?>
-<script>
+<script type="text/javascript">
 try{document.forms.edittag.name.focus();}catch(e){}
 </script>
 	<?php

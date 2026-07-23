@@ -458,9 +458,15 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$a = $plugin_a->$orderby;
 		$b = $plugin_b->$orderby;
 
-		return 'DESC' === $this->order ?
-			$b <=> $a :
-			$a <=> $b;
+		if ( $a === $b ) {
+			return 0;
+		}
+
+		if ( 'DESC' === $this->order ) {
+			return ( $a < $b ) ? 1 : -1;
+		} else {
+			return ( $a < $b ) ? -1 : 1;
+		}
 	}
 
 	/**
@@ -550,8 +556,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				$author = ' <cite>' . sprintf( __( 'By %s' ), $author ) . '</cite>';
 			}
 
-			$requires_php = $plugin['requires_php'] ?? null;
-			$requires_wp  = $plugin['requires'] ?? null;
+			$requires_php = isset( $plugin['requires_php'] ) ? $plugin['requires_php'] : null;
+			$requires_wp  = isset( $plugin['requires'] ) ? $plugin['requires'] : null;
 
 			$compatible_php = is_php_version_compatible( $requires_php );
 			$compatible_wp  = is_wp_version_compatible( $requires_wp );

@@ -1,0 +1,192 @@
+/* ==========================================================================
+   Category showcase — Gallery
+   Enqueued only on product_cat archives (see functions.php).
+   ========================================================================== */
+
+.silken-cat--gallery {
+	--silken-ink: #3c2f22;
+	--silken-gold: #c9a36a;
+	background: #f6ede1;
+}
+
+.silken-cat-gal__slideshow {
+	position: relative;
+	height: 68vh;
+	min-height: 420px;
+	overflow: hidden;
+	background: #14110d;
+}
+
+.silken-cat-gal__slide {
+	position: absolute;
+	inset: 0;
+	background-size: cover;
+	background-position: center;
+	opacity: 0;
+	transform: scale(1.08);
+	transition: opacity 1.4s ease, transform 6s ease;
+}
+
+.silken-cat-gal__slide.is-active {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.silken-cat-gal__scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to bottom, rgba(10, 8, 5, .15), rgba(10, 8, 5, .55));
+}
+
+.silken-cat-gal__dots {
+	position: absolute;
+	z-index: 1;
+	inset-inline: 0;
+	bottom: 20px;
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+}
+
+.silken-cat-gal__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .5);
+	cursor: pointer;
+	transition: all .3s ease;
+}
+
+.silken-cat-gal__dot.is-active {
+	background: var(--silken-gold);
+	transform: scale(1.3);
+}
+
+.silken-cat-gal__card {
+	position: relative;
+	z-index: 2;
+	max-width: 720px;
+	margin: -70px auto 40px;
+	padding: 34px 40px;
+	text-align: center;
+	border-radius: 22px;
+	background: rgba(255, 255, 255, .7);
+	-webkit-backdrop-filter: blur(16px);
+	backdrop-filter: blur(16px);
+	border: 1px solid rgba(255, 255, 255, .6);
+	box-shadow: 0 24px 50px rgba(60, 47, 34, .18);
+}
+
+.silken-cat-gal__eyebrow {
+	display: inline-block;
+	letter-spacing: .25em;
+	text-transform: uppercase;
+	font-size: 11px;
+	color: var(--silken-gold);
+	margin-bottom: 12px;
+}
+
+.silken-cat-gal__card h1 {
+	font-size: clamp(26px, 4vw, 36px);
+	color: var(--silken-ink);
+	margin: 0 0 14px;
+}
+
+.silken-cat-gal__desc {
+	color: var(--silken-ink);
+	opacity: .78;
+	line-height: 1.9;
+	margin: 0 0 16px;
+}
+
+.silken-cat__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: center;
+}
+
+.silken-cat__chip {
+	padding: 7px 16px;
+	border-radius: 999px;
+	border: 1px solid rgba(60, 47, 34, .18);
+	color: var(--silken-ink);
+	text-decoration: none;
+	font-size: 12px;
+	transition: all .25s ease;
+}
+
+.silken-cat__chip:hover {
+	background: var(--silken-gold);
+	border-color: var(--silken-gold);
+	color: #fff;
+}
+
+.silken-cat__products {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 10px 24px 30px;
+}
+
+.silken-cat__toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 24px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid rgba(60, 47, 34, .1);
+	color: var(--silken-ink);
+}
+
+.silken-cat__related {
+	max-width: 1280px;
+	margin: 20px auto 0;
+	padding: 40px 24px 80px;
+}
+
+.silken-cat__related h2 {
+	text-align: center;
+	font-size: 24px;
+	color: var(--silken-ink);
+	margin-bottom: 28px;
+}
+
+.silken-cat__related-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 18px;
+}
+
+.silken-cat__related-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	text-decoration: none;
+}
+
+.silken-cat__related-img {
+	aspect-ratio: 1 / 1;
+	border-radius: 14px;
+	background-size: cover;
+	background-position: center;
+	background-color: #eee1cd;
+	transition: transform .4s ease;
+}
+
+.silken-cat__related-card:hover .silken-cat__related-img {
+	transform: scale(1.03);
+}
+
+.silken-cat__related-name {
+	text-align: center;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--silken-ink);
+}
+
+@media (max-width: 767px) {
+	.silken-cat-gal__slideshow { height: 52vh; min-height: 320px; }
+	.silken-cat-gal__card { margin-top: -50px; padding: 26px 22px; }
+}

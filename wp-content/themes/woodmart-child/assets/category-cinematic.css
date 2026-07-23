@@ -1,0 +1,201 @@
+/* ==========================================================================
+   Category showcase — Cinematic
+   Enqueued only on product_cat archives (see functions.php).
+   ========================================================================== */
+
+.silken-cat--cinematic {
+	--silken-ink: #1c1712;
+	--silken-gold: #c9a36a;
+	--silken-paper: #f6ede1;
+	background: var(--silken-paper);
+}
+
+.silken-cat__hero {
+	position: relative;
+	min-height: 78vh;
+	display: flex;
+	align-items: flex-end;
+	background-color: #14110d;
+	background-size: cover;
+	background-position: center;
+	overflow: hidden;
+}
+
+.silken-cat__hero-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(10, 8, 5, .92) 0%, rgba(10, 8, 5, .25) 55%, rgba(10, 8, 5, .5) 100%);
+}
+
+.silken-cat__hero-inner {
+	position: relative;
+	z-index: 1;
+	max-width: 720px;
+	margin: 0 auto;
+	padding: 0 24px 64px;
+	text-align: center;
+	color: #fff;
+}
+
+.silken-cat__eyebrow {
+	display: inline-block;
+	letter-spacing: .3em;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: var(--silken-gold);
+	margin-bottom: 16px;
+}
+
+.silken-cat__hero-inner h1 {
+	font-size: clamp(32px, 6vw, 60px);
+	color: #fff;
+	margin: 0 0 18px;
+}
+
+.silken-cat__desc {
+	color: rgba(255, 255, 255, .78);
+	line-height: 1.95;
+	margin: 0 0 28px;
+}
+
+.silken-cat__cta {
+	display: inline-flex;
+	padding: 13px 30px;
+	border-radius: 999px;
+	background: var(--silken-gold);
+	color: #1a1408;
+	text-decoration: none;
+	font-size: 14px;
+	font-weight: 600;
+	transition: transform .25s ease;
+}
+
+.silken-cat__cta:hover {
+	transform: translateY(-2px);
+}
+
+.silken-cat__filmstrip {
+	display: flex;
+	gap: 12px;
+	overflow-x: auto;
+	padding: 20px 24px;
+	background: #14110d;
+	-webkit-overflow-scrolling: touch;
+}
+
+.silken-cat__filmstrip-item {
+	flex: 0 0 auto;
+	width: 220px;
+	height: 150px;
+	border-radius: 10px;
+	background-size: cover;
+	background-position: center;
+	opacity: 0;
+	transform: translateY(14px);
+	transition: opacity .6s ease, transform .6s ease;
+}
+
+.silken-cat__filmstrip-item.is-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.silken-cat__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	padding: 28px 24px 0;
+}
+
+.silken-cat__chip {
+	padding: 8px 18px;
+	border-radius: 999px;
+	border: 1px solid rgba(28, 23, 18, .18);
+	color: var(--silken-ink);
+	text-decoration: none;
+	font-size: 13px;
+	transition: all .25s ease;
+}
+
+.silken-cat__chip:hover {
+	background: var(--silken-gold);
+	border-color: var(--silken-gold);
+	color: #fff;
+}
+
+.silken-cat__products {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 44px 24px 30px;
+}
+
+.silken-cat__toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-bottom: 24px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid rgba(28, 23, 18, .1);
+	color: var(--silken-ink);
+}
+
+.silken-cat__related {
+	max-width: 1280px;
+	margin: 30px auto 0;
+	padding: 40px 24px 80px;
+}
+
+.silken-cat__related h2 {
+	text-align: center;
+	font-size: 24px;
+	color: var(--silken-ink);
+	margin-bottom: 28px;
+}
+
+.silken-cat__related-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 18px;
+}
+
+.silken-cat__related-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	text-decoration: none;
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity .6s ease, transform .6s ease;
+}
+
+.silken-cat__related-card.is-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.silken-cat__related-img {
+	aspect-ratio: 1 / 1;
+	border-radius: 14px;
+	background-size: cover;
+	background-position: center;
+	background-color: #eee1cd;
+	transition: transform .4s ease;
+}
+
+.silken-cat__related-card:hover .silken-cat__related-img {
+	transform: scale(1.03);
+}
+
+.silken-cat__related-name {
+	text-align: center;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--silken-ink);
+}
+
+@media (max-width: 767px) {
+	.silken-cat__hero { min-height: 62vh; }
+}

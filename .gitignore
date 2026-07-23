@@ -16,3 +16,7 @@ wp-content/themes/woodmart/
 wp-content/plugins/woodmart-core/
 wp-content/plugins/js_composer/
 wp-content/plugins/revslider/
+
+
+# مخفی کردن فایل‌های بک‌آپ Duplicator
+wp-content/backups-dup-lite/wp-content/backups-dup-lite/

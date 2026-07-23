@@ -30,7 +30,7 @@ add_filter(
 	}
 );
 
-$action = $_POST['action'] ?? '';
+$action = isset( $_POST['action'] ) ? $_POST['action'] : '';
 
 get_current_screen()->add_help_tab(
 	array(

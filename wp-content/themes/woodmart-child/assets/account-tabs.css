@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Account panel — Tabs
+   ========================================================================== */
+
+.silken-account--tabs {
+	--silken-ink: #1c1712;
+	--silken-gold: #c9a36a;
+	background: #14110d;
+	padding: 50px 24px 90px;
+}
+
+.silken-account__banner {
+	max-width: 1000px;
+	margin: 0 auto 30px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	color: #fff;
+}
+
+.silken-account__banner img {
+	border-radius: 50%;
+	border: 2px solid var(--silken-gold);
+}
+
+.silken-account--tabs .silken-account__welcome-label {
+	display: block;
+	font-size: 12px;
+	color: var(--silken-gold);
+	letter-spacing: .08em;
+	margin-bottom: 4px;
+}
+
+.silken-account__banner h1 {
+	font-size: 22px;
+	color: #fff;
+	margin: 0;
+}
+
+.silken-account__tabs-nav {
+	max-width: 1000px;
+	margin: 0 auto 26px;
+	overflow-x: auto;
+}
+
+.silken-account__tabs-nav .woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 4px;
+	display: flex;
+	gap: 4px;
+	width: max-content;
+	min-width: 100%;
+	background: rgba(245, 240, 230, .06);
+	border-radius: 999px;
+}
+
+.silken-account__tabs-nav .woocommerce-MyAccount-navigation-link a {
+	display: block;
+	padding: 10px 20px;
+	border-radius: 999px;
+	color: rgba(245, 240, 230, .75);
+	text-decoration: none;
+	font-size: 13px;
+	white-space: nowrap;
+	transition: all .25s ease;
+}
+
+.silken-account__tabs-nav .woocommerce-MyAccount-navigation-link.is-active a {
+	background: var(--silken-gold);
+	color: #1a1408;
+	font-weight: 600;
+}
+
+.silken-account--tabs .silken-account__content {
+	max-width: 1000px;
+	margin: 0 auto;
+	background: #fff;
+	border-radius: 18px;
+	padding: 34px;
+	color: var(--silken-ink);
+	line-height: 1.9;
+}
+
+.silken-account--tabs .silken-account__content .button {
+	background: var(--silken-gold);
+	color: #1a1408;
+	border-radius: 8px;
+	padding: 10px 18px;
+}

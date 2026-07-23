@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Account panel — Sidebar
+   ========================================================================== */
+
+.silken-account--sidebar {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	background: #fdfaf4;
+	padding: 50px 24px 90px;
+}
+
+.silken-account__welcome {
+	max-width: 1140px;
+	margin: 0 auto 30px;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.silken-account__welcome img {
+	border-radius: 50%;
+	border: 2px solid var(--silken-gold);
+}
+
+.silken-account__welcome-label {
+	display: block;
+	font-size: 12px;
+	color: var(--silken-gold);
+	letter-spacing: .08em;
+	margin-bottom: 4px;
+}
+
+.silken-account__welcome h1 {
+	font-size: 22px;
+	color: var(--silken-ink);
+	margin: 0;
+}
+
+.silken-account__layout {
+	max-width: 1140px;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 240px 1fr;
+	gap: 28px;
+	align-items: start;
+}
+
+.silken-account__nav {
+	position: sticky;
+	top: 20px;
+	background: #fff;
+	border-radius: 16px;
+	padding: 10px;
+	box-shadow: 0 12px 28px rgba(120, 90, 50, .08);
+}
+
+.silken-account__nav .woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.silken-account__nav .woocommerce-MyAccount-navigation-link a {
+	display: block;
+	padding: 12px 16px;
+	border-radius: 10px;
+	color: var(--silken-ink);
+	text-decoration: none;
+	font-size: 14px;
+	transition: background .2s ease, color .2s ease;
+}
+
+.silken-account__nav .woocommerce-MyAccount-navigation-link a:hover {
+	background: rgba(184, 137, 79, .1);
+}
+
+.silken-account__nav .woocommerce-MyAccount-navigation-link.is-active a {
+	background: var(--silken-gold);
+	color: #fff;
+}
+
+.silken-account__content {
+	background: #fff;
+	border-radius: 16px;
+	padding: 34px;
+	box-shadow: 0 12px 28px rgba(120, 90, 50, .08);
+	color: var(--silken-ink);
+	line-height: 1.9;
+}
+
+.silken-account__content table.shop_table {
+	width: 100%;
+}
+
+.silken-account__content .button {
+	background: var(--silken-gold);
+	color: #fff;
+	border-radius: 8px;
+	padding: 10px 18px;
+}
+
+@media (max-width: 860px) {
+	.silken-account__layout { grid-template-columns: 1fr; }
+	.silken-account__nav { position: static; }
+}

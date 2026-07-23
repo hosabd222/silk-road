@@ -1,0 +1,124 @@
+/* ==========================================================================
+   Login/Register — Classic
+   ========================================================================== */
+
+.silken-auth--classic {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	background: #fdfaf4;
+	padding: 70px 24px 90px;
+	display: flex;
+	justify-content: center;
+}
+
+.silken-auth__card {
+	width: 100%;
+	max-width: 440px;
+	background: #fff;
+	border-radius: 20px;
+	padding: 40px 36px;
+	box-shadow: 0 20px 44px rgba(120, 90, 50, .12);
+}
+
+.silken-auth--classic h2 {
+	font-size: 20px;
+	color: var(--silken-ink);
+	margin: 0 0 20px;
+	text-align: center;
+}
+
+.silken-auth__divider {
+	position: relative;
+	text-align: center;
+	margin: 30px 0;
+}
+
+.silken-auth__divider::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	inset-inline: 0;
+	height: 1px;
+	background: rgba(60, 47, 34, .12);
+}
+
+.silken-auth__divider span {
+	position: relative;
+	z-index: 1;
+	background: #fff;
+	padding: 0 14px;
+	font-size: 12px;
+	color: var(--silken-ink);
+	opacity: .55;
+}
+
+.silken-auth--classic .woocommerce-form-row label {
+	display: block;
+	font-size: 13px;
+	color: var(--silken-ink);
+	margin-bottom: 6px;
+}
+
+.silken-auth--classic .input-text {
+	width: 100%;
+	padding: 12px 14px;
+	border-radius: 10px;
+	border: 1px solid rgba(60, 47, 34, .18);
+	background: #fdfaf4;
+	font-size: 14px;
+	box-sizing: border-box;
+	transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.silken-auth--classic .input-text:focus {
+	outline: none;
+	border-color: var(--silken-gold);
+	box-shadow: 0 0 0 3px rgba(184, 137, 79, .15);
+}
+
+.silken-auth--classic .form-row {
+	margin-bottom: 16px;
+}
+
+.silken-auth--classic .woocommerce-form-login__rememberme {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+	color: var(--silken-ink);
+	margin-bottom: 14px;
+}
+
+.silken-auth--classic button[type="submit"] {
+	display: block;
+	width: 100%;
+	padding: 13px;
+	border: none;
+	border-radius: 10px;
+	background: var(--silken-gold);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background .25s ease, transform .2s ease;
+}
+
+.silken-auth--classic button[type="submit"]:hover {
+	background: #a67a41;
+	transform: translateY(-1px);
+}
+
+.silken-auth--classic .lost_password {
+	text-align: center;
+	margin-top: 14px;
+}
+
+.silken-auth--classic .lost_password a {
+	font-size: 13px;
+	color: var(--silken-gold);
+	text-decoration: none;
+}
+
+.silken-auth--classic .required {
+	color: #b3462c;
+}

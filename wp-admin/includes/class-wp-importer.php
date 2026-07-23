@@ -1,12 +1,7 @@
 <?php
 /**
  * WP_Importer base class
- *
- * @package WordPress
- * @subpackage Importer
- * @since 3.0.0
  */
-
 #[AllowDynamicProperties]
 class WP_Importer {
 	/**
@@ -279,7 +274,7 @@ class WP_Importer {
 	 * @since 3.0.0
 	 *
 	 * @global wpdb  $wpdb       WordPress database abstraction object.
-	 * @global int[] $wp_actions Stores the number of times each action was triggered.
+	 * @global int[] $wp_actions
 	 */
 	public function stop_the_insanity() {
 		global $wpdb, $wp_actions;
@@ -294,10 +289,9 @@ class WP_Importer {
  * Returns value of command line params.
  * Exits when a required param is not set.
  *
- * @param string $param    The parameter name to retrieve.
- * @param bool   $required Optional. Whether the parameter is required. Default false.
- * @return string|true|null|never The parameter value or true if found, null otherwise.
- *                                The function exits when a required parameter is missing.
+ * @param string $param
+ * @param bool   $required
+ * @return mixed
  */
 function get_cli_args( $param, $required = false ) {
 	$args = $_SERVER['argv'];
@@ -317,7 +311,11 @@ function get_cli_args( $param, $required = false ) {
 			$parts = explode( '=', $match[1] );
 			$key   = preg_replace( '/[^a-z0-9]+/', '', $parts[0] );
 
-			$out[ $key ] = $parts[1] ?? true;
+			if ( isset( $parts[1] ) ) {
+				$out[ $key ] = $parts[1];
+			} else {
+				$out[ $key ] = true;
+			}
 
 			$last_arg = $key;
 		} elseif ( (bool) preg_match( '/^-([a-zA-Z0-9]+)/', $args[ $i ], $match ) ) {

@@ -1,0 +1,150 @@
+/* ==========================================================================
+   About Us — Heritage
+   ========================================================================== */
+
+.silken-about--heritage {
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	background: #fdfaf4;
+}
+
+.silken-about__hero {
+	padding: 90px 24px 70px;
+	text-align: center;
+	background: radial-gradient(circle at 50% 0%, #f3e4c8, #fdfaf4 60%);
+}
+
+.silken-about__hero-inner {
+	max-width: 680px;
+	margin: 0 auto;
+}
+
+.silken-about__eyebrow {
+	display: inline-block;
+	letter-spacing: .28em;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: var(--silken-gold);
+	margin-bottom: 16px;
+}
+
+.silken-about__hero h1 {
+	font-size: clamp(32px, 5.5vw, 52px);
+	color: var(--silken-ink);
+	margin: 0 0 18px;
+}
+
+.silken-about__hero p {
+	color: var(--silken-ink);
+	opacity: .75;
+	line-height: 1.95;
+}
+
+.silken-about__stats {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0 24px 70px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px;
+	text-align: center;
+}
+
+.silken-about__stat-value {
+	display: block;
+	font-size: 34px;
+	font-weight: 700;
+	color: var(--silken-gold);
+	margin-bottom: 6px;
+}
+
+.silken-about__stat-label {
+	font-size: 13px;
+	color: var(--silken-ink);
+	opacity: .65;
+}
+
+.silken-about__timeline {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0 24px 80px;
+}
+
+.silken-about__timeline h2 {
+	text-align: center;
+	font-size: 28px;
+	color: var(--silken-ink);
+	margin-bottom: 44px;
+}
+
+.silken-about__timeline-track {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px;
+}
+
+.silken-about__timeline-track::before {
+	content: '';
+	position: absolute;
+	top: 10px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(90deg, transparent, var(--silken-gold) 10%, var(--silken-gold) 90%, transparent);
+	opacity: .5;
+}
+
+.silken-about__milestone {
+	position: relative;
+	padding-top: 34px;
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity .6s ease, transform .6s ease;
+}
+
+.silken-about__milestone.is-in {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.silken-about__milestone::before {
+	content: '';
+	position: absolute;
+	top: 4px;
+	right: calc(50% - 6px);
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--silken-gold);
+}
+
+.silken-about__milestone-year {
+	display: block;
+	text-align: center;
+	font-weight: 700;
+	color: var(--silken-gold);
+	margin-bottom: 10px;
+}
+
+.silken-about__milestone p {
+	text-align: center;
+	font-size: 13px;
+	color: var(--silken-ink);
+	opacity: .75;
+	line-height: 1.8;
+}
+
+.silken-about__content {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 0 24px 90px;
+	color: var(--silken-ink);
+	line-height: 2;
+}
+
+@media (max-width: 900px) {
+	.silken-about__stats { grid-template-columns: repeat(2, 1fr); }
+	.silken-about__timeline-track { grid-template-columns: 1fr; gap: 34px; }
+	.silken-about__timeline-track::before { display: none; }
+}

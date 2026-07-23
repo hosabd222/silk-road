@@ -23,7 +23,6 @@
  * @since 6.4.0
  *
  * @access private
- * @ignore
  *
  * @see https://html.spec.whatwg.org/#stack-of-open-elements
  * @see WP_HTML_Processor
@@ -716,7 +715,7 @@ class WP_HTML_Open_Elements {
 		}
 
 		if ( null !== $this->push_handler ) {
-			call_user_func( $this->push_handler, $item );
+			( $this->push_handler )( $item );
 		}
 	}
 
@@ -764,7 +763,7 @@ class WP_HTML_Open_Elements {
 		}
 
 		if ( null !== $this->pop_handler ) {
-			call_user_func( $this->pop_handler, $item );
+			( $this->pop_handler )( $item );
 		}
 	}
 

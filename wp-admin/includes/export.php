@@ -239,12 +239,10 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string|null $str String to wrap in XML CDATA tag. May be null.
+	 * @param string $str String to wrap in XML CDATA tag.
 	 * @return string
 	 */
 	function wxr_cdata( $str ) {
-		$str = (string) $str;
-
 		if ( ! wp_is_valid_utf8( $str ) ) {
 			$str = utf8_encode( $str );
 		}
@@ -687,12 +685,7 @@ function export_wp( $args = array() ) {
 	endforeach;
 
 				$_comments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved <> 'spam'", $post->ID ) );
-				$comments  = array_filter(
-					array_map( 'get_comment', $_comments ),
-					static function ( $comment ) {
-						return $comment instanceof WP_Comment;
-					}
-				);
+				$comments  = array_map( 'get_comment', $_comments );
 				foreach ( $comments as $c ) :
 					?>
 		<wp:comment>

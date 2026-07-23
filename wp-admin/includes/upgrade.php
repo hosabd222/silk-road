@@ -886,10 +886,6 @@ function upgrade_all() {
 		upgrade_682();
 	}
 
-	if ( $wp_current_db_version < 61644 ) {
-		upgrade_700();
-	}
-
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -2486,31 +2482,6 @@ function upgrade_682() {
 }
 
 /**
- * Executes changes made in WordPress 7.0.
- *
- * @ignore
- * @since 7.0.0
- *
- * @global int  $wp_current_db_version The old (current) database version.
- * @global wpdb $wpdb                  WordPress database abstraction object.
- */
-function upgrade_700() {
-	global $wp_current_db_version, $wpdb;
-
-	// Migrate users with 'fresh' admin color to 'modern'.
-	if ( $wp_current_db_version < 61644 ) {
-		$wpdb->update(
-			$wpdb->usermeta,
-			array( 'meta_value' => 'modern' ),
-			array(
-				'meta_key'   => 'admin_color',
-				'meta_value' => 'fresh',
-			)
-		);
-	}
-}
-
-/**
  * Executes network-level upgrade routines.
  *
  * @since 3.0.0
@@ -2860,7 +2831,7 @@ function get_alloptions_110() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $setting Option name.
- * @return mixed Option value.
+ * @return mixed
  */
 function __get_option( $setting ) { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionDoubleUnderscore,PHPCompatibility.FunctionNameRestrictions.ReservedFunctionNames.FunctionDoubleUnderscore
 	global $wpdb;
@@ -3403,7 +3374,7 @@ function make_db_current_silent( $tables = 'all' ) {
  *
  * @param string $theme_name The name of the theme.
  * @param string $template   The directory name of the theme.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function make_site_theme_from_oldschool( $theme_name, $template ) {
 	$home_path   = get_home_path();

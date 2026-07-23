@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Silken Memories — photo-album / timeline template
+   Enqueued only on template-silken-memories.php (see functions.php).
+   ========================================================================== */
+
+.silken-memories-page {
+	--silken-paper: #f3ead9;
+	--silken-paper-dark: #e6d9bd;
+	--silken-ink: #3c2f22;
+	--silken-gold: #b8894f;
+	--silken-shadow: rgba(40, 26, 10, 0.35);
+
+	position: relative;
+	padding: 60px 0 100px;
+	background-color: var(--silken-paper);
+	background-image:
+		radial-gradient(circle at 15% 20%, rgba(184, 137, 79, 0.12), transparent 40%),
+		radial-gradient(circle at 85% 80%, rgba(184, 137, 79, 0.10), transparent 45%),
+		repeating-linear-gradient(45deg, rgba(120, 90, 50, 0.035) 0, rgba(120, 90, 50, 0.035) 2px, transparent 2px, transparent 6px),
+		linear-gradient(var(--silken-paper), var(--silken-paper-dark));
+	overflow: hidden;
+}
+
+.silken-memories-page::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(60, 40, 15, 0.06) 1px, transparent 1px);
+	background-size: 3px 3px;
+	opacity: .5;
+}
+
+.silken-memories-page__intro {
+	position: relative;
+	z-index: 2;
+	max-width: 640px;
+	margin: 0 auto 44px;
+	padding: 0 24px;
+	text-align: center;
+	color: var(--silken-ink);
+}
+
+.silken-memories-page__intro h1 {
+	font-size: 32px;
+	margin-bottom: 12px;
+	color: var(--silken-ink);
+}
+
+.silken-memories-page__intro p {
+	opacity: .75;
+	line-height: 1.9;
+}
+
+/* ---- Timeline ---- */
+
+.silken-timeline {
+	position: relative;
+	z-index: 2;
+	overflow-x: auto;
+	padding: 0 24px 32px;
+	margin-bottom: 20px;
+	-webkit-overflow-scrolling: touch;
+}
+
+.silken-timeline__track {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 48px;
+	width: max-content;
+	margin: 0 auto;
+	padding: 20px 12px 0;
+}
+
+.silken-timeline__track::before {
+	content: '';
+	position: absolute;
+	top: 29px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(90deg, transparent, var(--silken-gold) 10%, var(--silken-gold) 90%, transparent);
+	opacity: .6;
+}
+
+.silken-timeline__point {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	font-family: inherit;
+}
+
+.silken-timeline__point::before {
+	content: '';
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: var(--silken-paper);
+	border: 2px solid var(--silken-gold);
+	transition: all .35s ease;
+}
+
+.silken-timeline__year {
+	font-size: 13px;
+	letter-spacing: .04em;
+	color: var(--silken-ink);
+	opacity: .65;
+	transition: opacity .35s ease, transform .35s ease;
+	white-space: nowrap;
+}
+
+.silken-timeline__point.is-active::before {
+	background: var(--silken-gold);
+	box-shadow: 0 0 0 5px rgba(184, 137, 79, .2);
+	transform: scale(1.15);
+}
+
+.silken-timeline__point.is-active .silken-timeline__year {
+	opacity: 1;
+	font-weight: 600;
+	transform: translateY(-2px);
+}
+
+/* ---- Album / Swiper ---- */
+
+.silken-album {
+	position: relative;
+	z-index: 1;
+}
+
+.silken-swiper {
+	padding: 40px 10px 70px;
+}
+
+.silken-swiper .swiper-slide {
+	width: 300px;
+	display: flex;
+	justify-content: center;
+}
+
+.silken-frame {
+	position: relative;
+	width: 280px;
+	background: #fffdf8;
+	padding: 14px 14px 46px;
+	box-shadow: 0 18px 34px var(--silken-shadow), 0 2px 6px rgba(0, 0, 0, .15);
+	border-radius: 2px;
+	transition: transform .3s ease;
+}
+
+.silken-frame.is-rot-1 { transform: rotate(-2deg); }
+.silken-frame.is-rot-2 { transform: rotate(1.4deg); }
+.silken-frame.is-rot-3 { transform: rotate(-1.2deg); }
+.silken-frame.is-rot-4 { transform: rotate(2deg); }
+
+.swiper-slide-active .silken-frame {
+	transform: rotate(0deg) scale(1.02);
+}
+
+.silken-frame__lightbox {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 4 / 5;
+	background: #111;
+}
+
+.silken-frame__video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.silken-frame__play {
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .85);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity .25s ease;
+}
+
+.silken-frame__play::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 54%;
+	transform: translate(-50%, -50%);
+	border-style: solid;
+	border-width: 9px 0 9px 15px;
+	border-color: transparent transparent transparent var(--silken-ink);
+}
+
+.silken-frame__lightbox:hover .silken-frame__play,
+.silken-frame__lightbox:focus-visible .silken-frame__play {
+	opacity: 1;
+}
+
+.silken-frame__caption {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	padding-top: 14px;
+}
+
+.silken-frame__title {
+	font-size: 14px;
+	color: var(--silken-ink);
+	font-weight: 600;
+}
+
+.silken-frame__period {
+	font-size: 12px;
+	color: var(--silken-gold);
+}
+
+/* Photo corners — small triangular mounts pinned over each frame's edges */
+
+.silken-frame__corner {
+	position: absolute;
+	width: 22px;
+	height: 22px;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.silken-frame__corner::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgba(255, 255, 255, .9), rgba(210, 190, 150, .75));
+	clip-path: polygon(0 0, 100% 0, 0 100%);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+}
+
+.silken-frame__corner--tl { top: 6px; left: 6px; }
+.silken-frame__corner--tr { top: 6px; right: 6px; transform: rotate(90deg); }
+.silken-frame__corner--bl { bottom: 40px; left: 6px; transform: rotate(-90deg); }
+.silken-frame__corner--br { bottom: 40px; right: 6px; transform: rotate(180deg); }
+
+@media (max-width: 767px) {
+	.silken-swiper .swiper-slide { width: 220px; }
+	.silken-frame { width: 200px; padding: 10px 10px 38px; }
+	.silken-timeline__track { gap: 30px; }
+	.silken-memories-page__intro h1 { font-size: 26px; }
+}

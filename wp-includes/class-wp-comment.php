@@ -210,7 +210,7 @@ final class WP_Comment {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param object $comment Comment object.
+	 * @param WP_Comment $comment Comment object.
 	 */
 	public function __construct( $comment ) {
 		foreach ( get_object_vars( $comment ) as $key => $value ) {
@@ -323,7 +323,11 @@ final class WP_Comment {
 	 * @return WP_Comment|false Returns the comment object if found, otherwise false.
 	 */
 	public function get_child( $child_id ) {
-		return $this->children[ $child_id ] ?? false;
+		if ( isset( $this->children[ $child_id ] ) ) {
+			return $this->children[ $child_id ];
+		}
+
+		return false;
 	}
 
 	/**
