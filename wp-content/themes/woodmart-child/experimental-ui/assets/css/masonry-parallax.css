@@ -1,0 +1,118 @@
+.silk-masonry-page {
+	background: #f7f4ee;
+	padding-bottom: 100px;
+}
+
+.silk-masonry-page__intro {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 90px 24px 60px;
+	text-align: center;
+}
+
+.silk-masonry-page__eyebrow {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: #b8894f;
+	margin-bottom: 14px;
+}
+
+.silk-masonry-page__intro h1 {
+	font-size: clamp(32px, 5vw, 52px);
+	margin: 0 0 16px;
+	color: #201a13;
+}
+
+.silk-masonry-page__intro p {
+	font-size: 16px;
+	line-height: 1.9;
+	color: rgba(32, 26, 19, .68);
+	margin: 0;
+}
+
+.silk-masonry {
+	display: flex;
+	align-items: flex-start;
+	gap: clamp(16px, 2.5vw, 32px);
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+.silk-masonry__col {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: clamp(16px, 2.5vw, 32px);
+	will-change: transform;
+}
+
+.silk-masonry__col[data-col='1'] {
+	margin-top: 72px;
+}
+
+.silk-masonry__card {
+	position: relative;
+	display: block;
+	border-radius: 18px;
+	overflow: hidden;
+	background: #e7e0d2;
+	aspect-ratio: 3 / 4;
+	box-shadow: 0 12px 28px rgba(32, 26, 19, .12);
+}
+
+.silk-masonry__card.is-short {
+	aspect-ratio: 4 / 3.4;
+}
+
+.silk-masonry__card img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
+	transition: transform .7s cubic-bezier(.2, .8, .2, 1);
+}
+
+.silk-masonry__card:hover img {
+	transform: scale(1.07);
+}
+
+.silk-masonry__card-overlay {
+	position: absolute;
+	inset-inline: 0;
+	bottom: 0;
+	padding: 34px 18px 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	background: linear-gradient(to top, rgba(10, 8, 5, .78), rgba(10, 8, 5, 0) 85%);
+	color: #fff;
+}
+
+.silk-masonry__card-name {
+	font-size: 13.5px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+
+.silk-masonry__card-price {
+	font-size: 12px;
+	color: #f0dcb8;
+}
+
+@media (max-width: 900px) {
+	.silk-masonry { flex-direction: column; }
+	.silk-masonry__col[data-col='1'] { margin-top: 0; }
+	.silk-masonry__col { transform: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.silk-masonry__col { transform: none !important; }
+	.silk-masonry__card img { transition: none !important; }
+}

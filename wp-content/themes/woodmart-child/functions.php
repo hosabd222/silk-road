@@ -1,4 +1,13 @@
 <?php
+/**
+ * Six isolated Awwwards-style UI experiments live entirely under
+ * experimental-ui/ (templates, CSS, JS) — this is the only line in the
+ * whole theme that references that folder. Deleting experimental-ui/ and
+ * this require leaves zero residue: no other hook, filter, or enqueue
+ * anywhere depends on it.
+ */
+require get_stylesheet_directory() . '/experimental-ui/experimental-loader.php';
+
 add_action( 'wp_enqueue_scripts', 'woodmart_child_enqueue_styles', 10010 );
 function woodmart_child_enqueue_styles() {
     wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'woodmart-style' ), woodmart_get_theme_info( 'Version' ) );

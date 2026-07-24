@@ -1,0 +1,151 @@
+.silk-texture-page {
+	background: #f7f4ee;
+	padding-bottom: 100px;
+}
+
+.silk-texture-page__intro {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 90px 24px 60px;
+	text-align: center;
+}
+
+.silk-texture-page__eyebrow {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: #b8894f;
+	margin-bottom: 14px;
+}
+
+.silk-texture-page__intro h1 {
+	font-size: clamp(32px, 5vw, 52px);
+	margin: 0 0 16px;
+	color: #201a13;
+}
+
+.silk-texture-page__intro p {
+	font-size: 16px;
+	line-height: 1.9;
+	color: rgba(32, 26, 19, .68);
+	margin: 0;
+}
+
+.silk-texture-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 26px;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+.silk-texture-card {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+}
+
+.silk-texture-card__stage {
+	position: relative;
+	display: block;
+	aspect-ratio: 4 / 5;
+	border-radius: 16px;
+	overflow: hidden;
+	background: #e7e0d2;
+	box-shadow: 0 12px 28px rgba(32, 26, 19, .12);
+}
+
+.silk-texture-card__full,
+.silk-texture-card__zoom {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+
+.silk-texture-card__full {
+	z-index: 2;
+	transition: opacity .5s ease-in-out;
+}
+
+.silk-texture-card__zoom {
+	z-index: 1;
+	transform: scale(1.6);
+	transition: transform .5s ease-in-out;
+}
+
+.silk-texture-card__stage:hover .silk-texture-card__full {
+	opacity: 0;
+}
+
+.silk-texture-card__stage:hover .silk-texture-card__zoom {
+	transform: scale(1.75);
+}
+
+.silk-texture-card__tag {
+	position: absolute;
+	top: 14px;
+	inset-inline-end: 14px;
+	z-index: 3;
+	font-size: 10.5px;
+	font-weight: 700;
+	letter-spacing: .04em;
+	color: #fff;
+	background: rgba(20, 16, 11, .55);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	padding: 6px 12px;
+	border-radius: 999px;
+	opacity: 0;
+	transform: translateY(-6px);
+	transition: opacity .35s ease, transform .35s ease;
+}
+
+.silk-texture-card__stage:hover .silk-texture-card__tag {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.silk-texture-card__caption {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 10px;
+	padding: 14px 2px 0;
+}
+
+.silk-texture-card__name {
+	font-size: 13px;
+	font-weight: 700;
+	color: #201a13;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.silk-texture-card__price {
+	font-size: 12px;
+	color: #b8894f;
+	flex: none;
+}
+
+@media (max-width: 1100px) {
+	.silk-texture-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 760px) {
+	.silk-texture-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.silk-texture-card__full,
+	.silk-texture-card__zoom,
+	.silk-texture-card__tag {
+		transition: none !important;
+	}
+}

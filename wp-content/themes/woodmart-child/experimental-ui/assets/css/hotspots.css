@@ -1,0 +1,215 @@
+.silk-hotspots {
+	--sh-gold: #b8894f;
+	--sh-ink: #201a13;
+	--sh-paper: #faf6ef;
+	max-width: 100%;
+	overflow-x: hidden;
+	background: var(--sh-paper);
+	padding-bottom: 80px;
+}
+
+.silk-hotspots__intro {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 90px 24px 50px;
+	text-align: center;
+}
+
+.silk-hotspots__eyebrow {
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: var(--sh-gold);
+	margin-bottom: 14px;
+}
+
+.silk-hotspots__intro h1 {
+	font-size: clamp(32px, 5vw, 52px);
+	margin: 0 0 16px;
+	color: var(--sh-ink);
+}
+
+.silk-hotspots__intro p {
+	font-size: 16px;
+	line-height: 1.9;
+	color: rgba(32, 26, 19, .68);
+	margin: 0;
+}
+
+.silk-hotspots__stage {
+	position: relative;
+	width: 100vw;
+	margin-inline-start: 50%;
+	transform: translateX(-50%);
+	aspect-ratio: 16 / 10;
+	max-height: 88vh;
+	overflow: hidden;
+	background: #0d0b08;
+}
+
+.silk-hotspots__bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	-o-object-fit: cover;
+	object-fit: cover;
+}
+
+.silk-hotspots__vignette {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .35) 100%);
+	pointer-events: none;
+}
+
+.silk-hotspot {
+	position: absolute;
+	left: var(--x);
+	top: var(--y);
+	transform: translate(-50%, -50%) scale(.4);
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity .5s ease, transform .5s cubic-bezier(.2, .9, .3, 1.3);
+	transition-delay: var(--delay);
+}
+
+.silk-hotspots__stage.is-ready .silk-hotspot {
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.silk-hotspot__dot {
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: var(--sh-gold);
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, .85), 0 4px 14px rgba(0, 0, 0, .35);
+}
+
+.silk-hotspot__pulse {
+	position: absolute;
+	inset: 0;
+	margin: auto;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: var(--sh-gold);
+	opacity: .55;
+	animation: silk-hotspot-pulse 2.2s ease-out infinite;
+}
+
+@keyframes silk-hotspot-pulse {
+	0% { transform: scale(1); opacity: .55; }
+	100% { transform: scale(3.2); opacity: 0; }
+}
+
+.silk-hotspot__tooltip {
+	position: absolute;
+	bottom: calc(100% + 16px);
+	left: 50%;
+	transform: translate(-50%, 10px);
+	width: 250px;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	padding: 12px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, .16);
+	-webkit-backdrop-filter: blur(18px) saturate(160%);
+	backdrop-filter: blur(18px) saturate(160%);
+	border: 1px solid rgba(255, 255, 255, .35);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, .3);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .3s ease, transform .3s cubic-bezier(.2, .9, .3, 1);
+	z-index: 5;
+}
+
+.silk-hotspot:hover .silk-hotspot__tooltip,
+.silk-hotspot:focus-visible .silk-hotspot__tooltip,
+.silk-hotspot.is-active .silk-hotspot__tooltip {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translate(-50%, 0);
+}
+
+.silk-hotspot__tooltip-img {
+	width: 54px;
+	height: 54px;
+	border-radius: 10px;
+	-o-object-fit: cover;
+	object-fit: cover;
+	flex: none;
+}
+
+.silk-hotspot__tooltip-body {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	text-align: start;
+}
+
+.silk-hotspot__tooltip-name {
+	font-size: 12.5px;
+	font-weight: 700;
+	color: #fff;
+	line-height: 1.4;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+
+.silk-hotspot__tooltip-price {
+	font-size: 11.5px;
+	color: #f0dcb8;
+}
+
+.silk-hotspot__tooltip-cta {
+	margin-top: 2px;
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--sh-ink);
+	background: var(--sh-gold);
+	padding: 6px 12px;
+	border-radius: 999px;
+	text-decoration: none;
+	width: fit-content;
+	transition: background-color .2s ease, transform .2s ease;
+}
+
+.silk-hotspot__tooltip-cta:hover {
+	background: #c9a15c;
+	transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+	.silk-hotspots__stage { aspect-ratio: 3 / 4; }
+	.silk-hotspot__tooltip { width: 210px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.silk-hotspot,
+	.silk-hotspot__tooltip,
+	.silk-hotspot__pulse {
+		animation: none !important;
+		transition: none !important;
+	}
+	.silk-hotspots__stage.is-ready .silk-hotspot {
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
+}
